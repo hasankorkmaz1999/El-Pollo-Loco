@@ -31,10 +31,7 @@ class Character extends MovableObject {
             this.otherDirection = false;
             this.walking_sound.play();
             
-        } else if (this.world.keyboard.RIGHT) {
-            this.x = this.world.level.level_end_x;
-            this.walking_sound.play();
-        }
+        } 
 
         if (this.world.keyboard.LEFT && this.x > 0 ) {
             this.x -= this.speed;
