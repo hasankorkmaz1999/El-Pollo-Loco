@@ -34,6 +34,12 @@ class Character extends MovableObject {
 
   ];
 
+  IMAGES_HURT = [
+    'img/2_character_pepe/4_hurt/H-41.png',
+    'img/2_character_pepe/4_hurt/H-42.png',
+    'img/2_character_pepe/4_hurt/H-43.png',
+  ];
+
 
 
   world;
@@ -44,6 +50,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
+    this.loadImages(this.IMAGES_HURT);
     this.applyGravity();
     this.animate();
   }
@@ -80,6 +87,9 @@ class Character extends MovableObject {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
 
+      } else if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+        
       } else if (this.isAboveground()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
