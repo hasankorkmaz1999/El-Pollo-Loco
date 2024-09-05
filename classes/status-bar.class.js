@@ -32,8 +32,10 @@ class StatusBar extends DrawableObject {
 
 }
 
-  class Healthbar extends StatusBar {
+  
 
+
+  class HealthBar extends StatusBar {
     IMAGES = [
       "img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png",
       "img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png",
@@ -42,18 +44,18 @@ class StatusBar extends DrawableObject {
       "img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png",
       "img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png"
     ];
-
+  
     constructor() {
       super();
       this.loadImages(this.IMAGES);
-      this.x = 20;
-      this.y = 0;
+      this.x = 10;
+      this.y = -10;
       this.width = 200;
       this.height = 60;
       this.setPercentage(100);
     }
-
   }
+  
 
   class CoinBar extends StatusBar {
 
@@ -69,11 +71,11 @@ class StatusBar extends DrawableObject {
     constructor() {
       super();
       this.loadImages(this.IMAGES);
-      this.x = 20;
-      this.y = 0;
+      this.x = 10;
+      this.y = 35;
       this.width = 200;
       this.height = 60;
-      this.setPercentage(100);
+      this.setPercentage(0);
     }
 
 
@@ -82,7 +84,7 @@ class StatusBar extends DrawableObject {
 
   
 class BottlesBar extends StatusBar {
-  IMAGES_BOTTLES = [
+  IMAGES = [
     'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png',
     'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png',
     'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/40.png',
@@ -96,11 +98,11 @@ class BottlesBar extends StatusBar {
   constructor() {
     super();
     this.loadImages(this.IMAGES);
-    this.x = 20;
-    this.y = 0;
+    this.x = 10;
+    this.y = 85;
     this.width = 200;
     this.height = 60;
-    this.setPercentage(100);
+    this.setPercentage(0);
   }
 
 }

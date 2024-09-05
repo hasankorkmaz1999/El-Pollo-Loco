@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
   acceleration = 2.5;
   energy = 100;
   lastHit = 0;
+  deadAnimationIndex = 0; 
 
   applyGravity() {
     setInterval(() => {
@@ -49,6 +50,8 @@ class MovableObject extends DrawableObject {
     return timepassed < 1.5;
   }
 
+ 
+
   isDead() {
     return this.energy == 0;
   }
@@ -71,4 +74,14 @@ class MovableObject extends DrawableObject {
   jump() {
     this.speedY = 30;
   }
+
+  playDeadAnimation() {
+    if (this.deadAnimationIndex < this.IMAGES_DEAD.length) {
+      this.img = this.imageCache[this.IMAGES_DEAD[this.deadAnimationIndex]];  // Zeigt das Bild entsprechend des Index an
+      this.deadAnimationIndex++;  // Erhöht den Index bei jedem Aufruf
+    } else {
+      this.img = this.imageCache[this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]];  // Bleibt beim letzten Bild
+    }
+  }
+
 }
