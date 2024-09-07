@@ -6,7 +6,6 @@ class World {
   keyboard;
   camera_x = 0;
 
-
   healthBar = new HealthBar();  
   coinsBar = new CoinBar();    
   bottlesBar = new BottlesBar(); 
@@ -19,6 +18,7 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
+    
     this.run();
   }
 
@@ -28,51 +28,87 @@ class World {
 
   run() {
     setInterval(() => {
-   this.checkCollisions();
-   this.checkthrowableObjects();
+      this.checkCollisions();
+      this.checkthrowableObjects();
+      this.checkCollisionsWithBottles();
+      
     }, 200);
   }
 
+  
+
   checkthrowableObjects() {
-    if(this.keyboard.D) {
-        let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-        this.throwableObjects.push(bottle)
+    if (this.keyboard.D) {
+      let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+      this.throwableObjects.push(bottle);
     }
   }
 
   checkCollisions() {
+    
     this.level.enemies.forEach((enemy) => {
-        if (this.character.isColliding(enemy)) {
-          this.character.hit();
-          this.healthBar.setPercentage(this.character.energy)
-        }
-      });
+      if (this.character.isColliding(enemy)) {
+        this.character.hit();
+        this.healthBar.setPercentage(this.character.energy);
+      }
+    });
+  
   }
+
+  checkCollisionsWithBottles() {
+    let totalBottles = 10;  // Beispiel: Gesamtanzahl der Flaschen im Level
+    this.level.bottles = this.level.bottles.filter((bottle) => {
+        if (this.character.isColliding(bottle)) {
+            console.log("Collided with bottle");
+            this.character.collect();  // Sammle die Flasche
+            
+            // Berechne den neuen Prozentsatz
+            let percentage = (this.character.collectedBottles / totalBottles) * 100;
+            this.bottlesBar.setPercentage(percentage);  // Aktualisiere die BottlesBar
+            
+            return false;  // Entferne die Flasche aus dem Array
+        }
+        return true;  // Behalte die Flasche im Array, wenn keine Kollision
+    });
+    
+  }
+  
+  
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+   
+    this.ctx.save();
+    
+   
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.bottles);
+    
+    
     this.addObjectsToMap(this.level.backgroundObjects);
 
-    this.ctx.translate(-this.camera_x, 0); // Back
+   
+    this.addObjectsToMap(this.level.bottles);
 
-    // Füge alle Statusleisten hinzu
-    this.addToMap(this.healthBar);  // Zeichne die HealthBar
-    this.addToMap(this.coinsBar);   // Zeichne die CoinBar
-    this.addToMap(this.bottlesBar); // Zeichne die BottlesBar
-    
-    this.ctx.translate(this.camera_x, 0); // forward
-
-
-    this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
+    this.ctx.translate(-this.camera_x, 0);
+   
+   
+    this.addToMap(this.healthBar);
+    this.addToMap(this.coinsBar);
+    this.addToMap(this.bottlesBar);
+    
+   
+    this.ctx.translate(this.camera_x, 0);
+
+  
+    this.addToMap(this.character);
+   
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
    
-
-    this.ctx.translate(-this.camera_x, 0);
+    
+    this.ctx.restore();
 
     let self = this;
     requestAnimationFrame(function () {

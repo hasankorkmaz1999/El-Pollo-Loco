@@ -26,6 +26,7 @@ constructor(x, y){
     this.width = 50;
     this.throw();
     this.rotation();
+
 }
 
 throw () {
@@ -45,3 +46,5 @@ rotation () {
 
 
 }
+
+
