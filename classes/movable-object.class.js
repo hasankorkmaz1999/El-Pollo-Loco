@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject {
   lastHit = 0;
   deadAnimationIndex = 0; 
   collectedBottles = 0;
+  collectedCoins = 0;
 
   applyGravity() {
     setInterval(() => {
@@ -21,27 +22,83 @@ class MovableObject extends DrawableObject {
     if (this instanceof ThrowableObject) {
         return true;
     } else {
-    return this.y < 125;
+    return this.y < 215;
   }}
 
   
 
   isColliding(mo) {
-    let hitboxOffsetX = mo.width * 0.7;  // Reduziere die Breite der Hitbox um 20%
-    let hitboxOffsetY = mo.height * 0.7; // Reduziere die Höhe der Hitbox um 20%
-    let hitboxWidth = mo.width * 0.6;    // Verbleibende 60% als tatsächliche Hitbox-Breite
-    let hitboxHeight = mo.height * 0.6;  // Verbleibende 60% als tatsächliche Hitbox-Höhe
+    // Kollisions-Hitbox für Münzen
+    if (mo instanceof Coins) {  
+        let hitboxOffsetX = mo.width * 0.55;  // Gleiche Werte wie in drawFrame
+        let hitboxOffsetY = mo.height * 0.01;
+        let hitboxWidth = mo.width * -0.1;
+        let hitboxHeight = mo.height * 0.01;
 
+        return (
+            this.x + this.width > mo.x + hitboxOffsetX &&       
+            this.x < mo.x + hitboxOffsetX + hitboxWidth &&         
+            this.y + this.height > mo.y + hitboxOffsetY &&      
+            this.y < mo.y + hitboxOffsetY + hitboxHeight           
+        );
+    }
+
+    // Kollisions-Hitbox für Flaschen
+    if (mo instanceof Bottles) {
+        let hitboxOffsetX = mo.width * 0.8;  // Gleiche Werte wie in drawFrame
+        let hitboxOffsetY = mo.height * 0.15;
+        let hitboxWidth = mo.width * -0.7;
+        let hitboxHeight = mo.height * 0.7;
+
+        return (
+            this.x + this.width > mo.x + hitboxOffsetX &&       
+            this.x < mo.x + hitboxOffsetX + hitboxWidth &&         
+            this.y + this.height > mo.y + hitboxOffsetY &&      
+            this.y < mo.y + hitboxOffsetY + hitboxHeight
+        );
+    }
+
+    // Kollisions-Hitbox für den Charakter
+    if (this instanceof Character) {
+      let hitboxOffsetX = this.width * 0.4;  // Symmetrische Anpassung für den Charakter
+      let hitboxOffsetY = this.height * 0.15;
+      let hitboxWidth = this.width * 0.4;
+      let hitboxHeight = this.height * 0.7;
+
+        return (
+            this.x + hitboxOffsetX + hitboxWidth > mo.x &&       
+            this.x + hitboxOffsetX < mo.x + mo.width &&         
+            this.y + hitboxOffsetY + hitboxHeight > mo.y &&      
+            this.y + hitboxOffsetY < mo.y + mo.height
+        );
+    }
+
+    // Standard-Kollisionsabfrage für alle anderen Objekte
     return (
-        this.x + this.width > mo.x + hitboxOffsetX &&       
-        this.x < mo.x + hitboxOffsetX + hitboxWidth &&         
-        this.y + this.height > mo.y + hitboxOffsetY &&      
-        this.y < mo.y + hitboxOffsetY + hitboxHeight           
+        this.x + this.width > mo.x &&       
+        this.x < mo.x + mo.width &&         
+        this.y + this.height > mo.y &&      
+        this.y < mo.y + mo.height
     );
 }
 
 
 
+
+
+
+
+
+
+
+
+
+collectCoin() {
+  this.collectedCoins++;  
+  if (this.collectedCoins > 100) {
+      this.collectedCoins = 100;  
+  }
+}
 
   
 
@@ -64,11 +121,12 @@ class MovableObject extends DrawableObject {
   }
 
   isHurt() {
-    let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
-    timepassed = timepassed / 1000; //  Difference in s
+    let timepassed = new Date().getTime() - this.lastHit; // Zeit seit dem letzten Treffer
+    timepassed = timepassed / 1000; // Zeit in Sekunden
 
-    return timepassed < 1.5;
-  }
+    return timepassed < 1.5 && this.energy > 0;  // Rückgabe true, wenn der Charakter in den letzten 1,5 Sekunden getroffen wurde und noch Energie hat
+}
+
 
  
 
@@ -92,7 +150,7 @@ class MovableObject extends DrawableObject {
   }
 
   jump() {
-    this.speedY = 30;
+    this.speedY = 25;
   }
 
   playDeadAnimation() {

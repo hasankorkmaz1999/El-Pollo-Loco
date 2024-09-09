@@ -14,21 +14,9 @@ class Bottles extends DrawableObject {
         super();
         
         // Zufällige Auswahl zwischen den beiden Flaschen-Bildern
-        let bottles = [];
-        let previousX = 200;  // Anfangsposition für die erste Flasche
-        let minDistance = 300;  // Mindestabstand zwischen den Flaschen
+        const randomBottleImage = this.IMAGES_BOTTLES[Math.floor(Math.random() * this.IMAGES_BOTTLES.length)];
+        this.loadImage(randomBottleImage); 
         
-        for (let i = 0; i < 10; i++) {  // Beispiel: 10 Flaschen erstellen
-            let randomOffset = Math.random() * 200;  // Zufälliger Versatz, um die Platzierung natürlicher zu machen
-            let newX = previousX + minDistance + randomOffset;  // Setze die neue x-Position mit Abstand
-            
-            // Erstelle eine neue Flasche an der Position newX
-            let bottle = new Bottles();
-            bottle.x = newX;  // Setze die x-Position der Flasche
-        
-            bottles.push(bottle);  // Füge die Flasche zur Liste der Flaschen hinzu
-            
-            previousX = newX;  // Speiche
-    }
+        this.x = 200 + Math.random() * 2000; 
     }
 }

@@ -1,8 +1,8 @@
 class Character extends MovableObject {
-  height = 280;
+  height = 200;
   x = 120;
-    y = 0;
-    width = 100;
+  y = 215;
+   width = 100;
   speed = 10;
   
  
@@ -151,6 +151,16 @@ class Character extends MovableObject {
 
     }, 150);
   }
+
+  isJumpingOn(chicken) {
+    return (
+        this.speedY < 0 &&  
+        this.y + this.height < chicken.y + chicken.height &&  
+        this.y + this.height > chicken.y &&  
+        this.x + this.width > chicken.x && 
+        this.x < chicken.x + chicken.width
+    );
+}
 
  
 }
