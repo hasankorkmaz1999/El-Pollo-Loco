@@ -32,8 +32,22 @@
     <h1>El Pollo Loco</h1>
 
     <canvas id="canvas" width="720" height="480">
-
     </canvas>
+
+    <div class="overlay" id="overlay">
+        <!-- You Win Bild -->
+        <img id="you-win-image" src="img/9_intro_outro_screens/win/win_1.png" alt="You Win!" style="display: none;">
     
+        <!-- You Lose Bild -->
+        <img id="you-lose-image" src="img/9_intro_outro_screens/game_over/game over!.png" alt="You Lose!" style="display: none;">
+    
+        <!-- Button für Neustart -->
+        <button id="new-game-button" onclick="startNewGame()" style="display: none;">Start New Game</button>
+    </div>
+    
+
+
+
+
 </body>
 </html>

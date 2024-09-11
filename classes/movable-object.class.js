@@ -3,7 +3,7 @@ class MovableObject extends DrawableObject {
   otherDirection = false;
   speedY = 0;
   acceleration = 2.5;
-  energy = 100;
+ 
   lastHit = 0;
   deadAnimationIndex = 0; 
   collectedBottles = 0;
@@ -58,11 +58,25 @@ class MovableObject extends DrawableObject {
         );
     }
 
+    if (mo instanceof Chicken) {
+      let hitboxOffsetX = mo.width * 0.5;  // Passe den Wert je nach gewünschter Hitbox an
+      let hitboxOffsetY = mo.height * 0.55;
+      let hitboxWidth = mo.width * 0.1;    // Schmalere Hitbox
+      let hitboxHeight = mo.height * 0.1;  // Schmalere Hitbox
+
+      return (
+          this.x + this.width > mo.x + hitboxOffsetX &&       
+          this.x < mo.x + hitboxOffsetX + hitboxWidth &&         
+          this.y + this.height > mo.y + hitboxOffsetY &&      
+          this.y < mo.y + hitboxOffsetY + hitboxHeight
+      );
+  }
+
     // Kollisions-Hitbox für den Charakter
     if (this instanceof Character) {
-      let hitboxOffsetX = this.width * 0.4;  // Symmetrische Anpassung für den Charakter
+      let hitboxOffsetX = this.width * 0.6;  // Symmetrische Anpassung für den Charakter
       let hitboxOffsetY = this.height * 0.15;
-      let hitboxWidth = this.width * 0.4;
+      let hitboxWidth = this.width * 0.6;
       let hitboxHeight = this.height * 0.7;
 
         return (
@@ -73,6 +87,7 @@ class MovableObject extends DrawableObject {
         );
     }
 
+   
     // Standard-Kollisionsabfrage für alle anderen Objekte
     return (
         this.x + this.width > mo.x &&       
@@ -130,9 +145,7 @@ collectCoin() {
 
  
 
-  isDead() {
-    return this.energy == 0;
-  }
+ 
 
   moveRight() {
     this.x += this.speed;

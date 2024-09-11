@@ -16,10 +16,10 @@ class ThrowableObject extends MovableObject{
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
     ];
 
-    splashPlayed = false; // Um sicherzustellen, dass die Splash-Animation nur einmal abgespielt wird
-    world;  // Füge die world-Eigenschaft hinzu
+    splashPlayed = false; 
+    world;  
 
-    constructor(x, y, world){  // Füge world als Parameter hinzu
+    constructor(x, y, world){  
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_THROWN);
         this.loadImages(this.IMAGES_SPLASH);
@@ -27,7 +27,7 @@ class ThrowableObject extends MovableObject{
         this.y = y;
         this.height = 70;
         this.width = 50;
-        this.world = world;  // Weise die world zu
+        this.world = world; 
         this.throw();
         this.rotation();
     }
@@ -39,7 +39,7 @@ class ThrowableObject extends MovableObject{
            this.x += 10;
            this.checkGroundCollision();
            this.checkChickenCollision();
-           this. checkEndbossCollision() ;
+           this.checkEndbossCollision();  
         }, 25);
     }
 
@@ -56,11 +56,12 @@ class ThrowableObject extends MovableObject{
     }
 
     checkChickenCollision() {
+       
         this.world.level.enemies.forEach((enemy) => {
             if (!(enemy instanceof Endboss) && this.isColliding(enemy) && !this.splashPlayed) {
                 this.playSplashAnimation();
                 if (typeof enemy.die === 'function') {
-                    enemy.die();  // Beispiel: Schaden am Chicken
+                    enemy.die(); 
                 }
             }
         });
@@ -68,25 +69,44 @@ class ThrowableObject extends MovableObject{
     
 
     checkEndbossCollision() {
-        const endboss = this.world.level.enemies.find(enemy => enemy instanceof Endboss);
+        if (this.world.endboss) {
+            const endbossHitbox = {
+                x: this.world.endboss.x + this.world.endboss.width * 0.15,   // Passe hier die Hitbox-Werte an
+                y: this.world.endboss.y + this.world.endboss.height * 0.1,
+                width: this.world.endboss.width * 0.7,
+                height: this.world.endboss.height * 0.9
+            };
     
-        if (endboss && this.isColliding(endboss) && !this.splashPlayed) {
-            this.playSplashAnimation();
-            endboss.hit();  // Endboss erleidet Schaden
+            const bottleHitbox = {
+                x: this.x,
+                y: this.y,
+                width: this.width,
+                height: this.height
+            };
+    
+            // Manuelle Kollisionsprüfung zwischen der Flasche und dem Endboss
+            if (
+                bottleHitbox.x + bottleHitbox.width > endbossHitbox.x &&
+                bottleHitbox.x < endbossHitbox.x + endbossHitbox.width &&
+                bottleHitbox.y + bottleHitbox.height > endbossHitbox.y &&
+                bottleHitbox.y < endbossHitbox.y + endbossHitbox.height
+            ) {
+                this.playSplashAnimation();
+                this.world.endboss.hitEndboss();  // Endboss erleidet Schaden
+            }
         }
     }
     
-    
 
     playSplashAnimation() {
-        if (!this.splashPlayed) {  // Sicherstellen, dass die Animation nur einmal abgespielt wird
+        if (!this.splashPlayed) {  
             this.splashPlayed = true;
-            clearInterval(this.throwInterval);  // Stoppe die Bewegung
-            clearInterval(this.rotationInterval);  // Stoppe die Rotation
+            clearInterval(this.throwInterval);  
+            clearInterval(this.rotationInterval);  
             this.playAnimation(this.IMAGES_SPLASH);
             setTimeout(() => {
-                this.remove();  // Entferne das Objekt nach der Animation
-            }, 600);  // Die Dauer der Splash-Animation
+                this.remove();  
+            }, 600); 
         }
     }
     
@@ -97,7 +117,4 @@ class ThrowableObject extends MovableObject{
             this.world.throwableObjects.splice(index, 1);
         }
     }
-
-    
-
 }

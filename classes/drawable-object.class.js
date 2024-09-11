@@ -55,7 +55,19 @@ class DrawableObject {
           ctx.strokeStyle = "green";  // Farbe für Flaschen
           ctx.rect(this.x + hitboxOffsetX, this.y + hitboxOffsetY, hitboxWidth, hitboxHeight);
           ctx.stroke();
-      }
+      }   else if (this instanceof Chicken) {
+        // Individuelle Hitbox für Chicken
+        let hitboxOffsetX = this.width * 0.1;
+        let hitboxOffsetY = this.height * 0.1;
+        let hitboxWidth = this.width * 0.9;
+        let hitboxHeight = this.height * 0.9;
+        
+        ctx.beginPath();
+        ctx.lineWidth = "2";
+        ctx.strokeStyle = "orange";  // Farbe für Chicken
+        ctx.rect(this.x + hitboxOffsetX, this.y + hitboxOffsetY, hitboxWidth, hitboxHeight);
+        ctx.stroke();
+    }
   }
   
   

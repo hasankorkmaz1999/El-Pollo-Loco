@@ -99,7 +99,7 @@ class StatusBar extends DrawableObject {
       'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png',
     ];
   
-    collectedBottles = 0;  // Anzahl der gesammelten Flaschen
+    collectedBottles = 0;  
   
     constructor() {
       super();
@@ -112,23 +112,23 @@ class StatusBar extends DrawableObject {
     }
   
     setBottlesCollected(collectedBottles, totalBottles) {
-      this.collectedBottles = collectedBottles;  // Speichere die Anzahl der gesammelten Flaschen
+      this.collectedBottles = collectedBottles;  
   
-      // Berechne den Prozentsatz basierend auf der Anzahl der gesammelten Flaschen
+      
       this.percentage = (collectedBottles / totalBottles) * 100;
       let path = this.IMAGES[this.resolveImageIndex()];
       this.img = this.imageCache[path];
     }
   
-    // Zeichne die BottlesBar und den Flaschenzähler
+    
     draw(ctx) {
-      // Zeichne die Statusbar (Bilder)
+     
       super.draw(ctx);
   
-      // Zeichne den Text für die Anzahl der Flaschen in die Statusleiste hinein
+      
       ctx.font = "20px Arial";
       ctx.fillStyle = "black";
-      ctx.textAlign = "center";  // Text zentriert ausrichten
+      ctx.textAlign = "center";  
       ctx.fillText(`x ${this.collectedBottles}`, this.x + this.width / 2, this.y + this.height / 1.25);  // Text in die Mitte der Statusbar platzieren
     }
   }
@@ -150,12 +150,12 @@ class StatusBar extends DrawableObject {
         this.y = -3;
         this.width = 200;
         this.height = 60;
-        this.setPercentage(100);  // Statusbar beginnt bei 100 %
+        this.setPercentage(100); 
     }
 
     resolveImageIndex() {
         if (this.percentage == 100) {
-            return 4;  // Index 4 für 100% (letztes Bild im Array)
+            return 4;  
         } else if (this.percentage >= 80) {
             return 3;
         } else if (this.percentage >= 60) {

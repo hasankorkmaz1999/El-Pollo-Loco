@@ -5,8 +5,16 @@ class Endboss extends MovableObject {
     energy = 100; // Energie für den Endboss
     isHurt = false;  // Zustand, ob der Endboss verletzt wurde
     isDeadEndboss = false;  // Zustand, ob der Endboss tot ist
+    isAttacking = false;  // Zustand, ob der Endboss gerade angreift
+    speed = 30.95;
+    attackCooldown = 3000;  // Cooldown zwischen Angriffen in Millisekunden
 
-    IMAGES_WALKING = [
+    hitboxOffsetX = 70; // Manuelle Offset-Werte
+    hitboxOffsetY = 50;
+    hitboxWidth = 10;
+    hitboxHeight = 340;
+
+    IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
         'img/4_enemie_boss_chicken/2_alert/G7.png',
@@ -15,6 +23,24 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G10.png',
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png'
+    ];
+
+    IMAGES_ATTACK = [
+        'img/4_enemie_boss_chicken/3_attack/G13.png',
+        'img/4_enemie_boss_chicken/3_attack/G14.png',
+        'img/4_enemie_boss_chicken/3_attack/G15.png',
+        'img/4_enemie_boss_chicken/3_attack/G16.png',
+        'img/4_enemie_boss_chicken/3_attack/G17.png',
+        'img/4_enemie_boss_chicken/3_attack/G18.png',
+        'img/4_enemie_boss_chicken/3_attack/G19.png',
+        'img/4_enemie_boss_chicken/3_attack/G20.png'
+    ];
+
+    IMAGES_WALKING = [
+        'img/4_enemie_boss_chicken/1_walk/G1.png',
+        'img/4_enemie_boss_chicken/1_walk/G2.png',
+        'img/4_enemie_boss_chicken/1_walk/G3.png',
+        'img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
 
     IMAGES_HURT = [
@@ -26,74 +52,110 @@ class Endboss extends MovableObject {
     IMAGES_DEAD = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
-        'img/4_enemie_boss_chicken/5_dead/G26.png',
+        'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
     constructor() {
-        super().loadImage(this.IMAGES_WALKING[0]);
-        this.loadImages(this.IMAGES_WALKING);
+        super().loadImage(this.IMAGES_ALERT[0]);
+        this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_ATTACK);
+
         this.x = 2500;
         this.animate();
+        this.attack();  
     }
-     
+
+    isInSight() {
+        if (this.world && this.world.character) {
+            let distanceToCharacter = this.world.character.x - this.x;
+            return distanceToCharacter < 500 && distanceToCharacter > -1000;
+        }
+        return false;  
+    }
+
+    getHitbox() {
+        return {
+            x: this.x + this.hitboxOffsetX,
+            y: this.y + this.hitboxOffsetY,
+            width: this.hitboxWidth,
+            height: this.hitboxHeight
+        };
+    }
+
     animate() {
         this.animationInterval = setInterval(() => {
             if (this.isDeadEndboss) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt) {
                 this.playAnimation(this.IMAGES_HURT);
+            } else if (this.isAttacking) {
+                this.playAttackAnimation();  
+            } else if (this.isInSight()) {
+                this.walk();
             } else {
-                this.playAnimation(this.IMAGES_WALKING);
+                this.playAnimation(this.IMAGES_ALERT);
             }
-        }, 150);  // Reduziere das Intervall für Animationen
+        }, 250);
     }
 
-    hit() {
+    walk() {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.x -= this.speed;
+    }
+   
+    attack() {
+        setInterval(() => {
+            if (this.isInSight() && !this.isDeadEndboss) {
+                this.isAttacking = true;
+                setTimeout(() => {
+                    this.isAttacking = false;  
+                }, 2000);  
+            }
+        }, this.attackCooldown);  
+    }
+
+    playAttackAnimation() {
+        this.playAnimation(this.IMAGES_ATTACK);  
+    }
+
+    hitEndboss() {
         if (!this.isDeadEndboss) {
-            this.energy -= 20;  // Endboss verliert 20 Energiepunkte
-            this.isHurt = true;  // Setze den Endboss in den Hurt-Zustand
-
-            // Aktualisiere die Endboss-Statusleiste, wenn er getroffen wird
+            this.energy -= 15;  
+            this.isHurt = true;  
+    
             this.updateEndbossStatusbar();
-
+    
             setTimeout(() => {
-                this.isHurt = false;  // Nach einer kurzen Verzögerung verlässt der Endboss den Hurt-Zustand
-            }, 500);  // Hurt-Animation dauert 0.5 Sekunden
-
+                this.isHurt = false;  
+            }, 500);  
+    
             if (this.energy <= 0) {
                 this.die();
             }
         }
     }
-
-    die() {
-        this.isDeadEndboss = true;  // Setze den Endboss in den Dead-Zustand
-        // Lösche den Interval NICHT sofort, damit die Animation noch läuft.
-        setTimeout(() => {
-            clearInterval(this.animationInterval);  // Stoppe die Animationen erst nach der Dead-Animation
-            this.removeFromWorld();  // Entferne den Endboss nach der Dead-Animation
-        }, 2000);  // Lasse die Dead-Animation 2 Sekunden ablaufen, bevor der Endboss entfernt wird
-    }
-
-    removeFromWorld() {
-        // Finde den Index des Endbosses in der Liste der Feinde (enemies)
-        let index = this.world.level.enemies.indexOf(this);
-        
-        // Wenn der Endboss gefunden wurde, entferne ihn aus der Liste
-        if (index > -1) {
-            this.world.level.enemies.splice(index, 1);
-            console.log('Endboss entfernt');  // Ausgabe zur Bestätigung
-        }
-    }
     
+    die() {
+        this.isDeadEndboss = true;  
+        setTimeout(() => {
+            clearInterval(this.animationInterval);  
+            this.removeFromWorld(); 
+            this.world.isGameOver = true;
+        }, 2000);  
+    }
 
     updateEndbossStatusbar() {
         if (this.world.endbossBar) {
-            let healthPercentage = (this.energy / 100) * 100;  // Berechne den aktuellen Prozentsatz der Energie
+            let healthPercentage = (this.energy / 100) * 100;  
             this.world.endbossBar.setPercentage(healthPercentage);
         }
     }
-    
+
+    removeFromWorld() {
+        this.isDeadEndboss = true;
+        console.log('Endboss aus der Welt entfernt');
+    }
 }

@@ -5,11 +5,15 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-
+  energy = 150;
   healthBar = new HealthBar();  
   coinsBar = new CoinBar();    
   bottlesBar = new BottlesBar(); 
- 
+  endboss = new Endboss();
+
+  
+  isGameOver = false;
+  
 
   throwableObjects = [];
 
@@ -18,43 +22,68 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.endbossBar = new EndbossStatusbar();
+    this.endboss.world = this;
+    this.level.enemies.forEach(enemy => {
+      enemy.world = this;
+    });
+
     this.draw();
     this.setWorld();
-    this.level.enemies.forEach(enemy => {
-      if (enemy instanceof Endboss) {
-          enemy.world = this;  // Weise dem Endboss die World zu
-      }
-  });
-
     this.run();
     this.run2();
+
+   
   }
+
+
+ 
 
   setWorld() {
     this.character.world = this;
   }
 
   run() {
-    setInterval(() => {
-      this.checkCollisions();
-      this.checkthrowableObjects();
+    this.moveInterval = setInterval(() => {
+      if (!this.isGameOver) {
+        this.checkCollisions();
+        this.checkthrowableObjects();
+        this.checkEndbossCollision();
+
       
-     
+      }
     }, 200);
   }
 
   run2() {
-setInterval(() => {
-  this.checkCollisionsWithBottles();
-      this.checkCollisionsWithCoins();
-  this.checkCollisionsWithChicken();
-}, 50);
-
+    this.animationInterval = setInterval(() => {
+      if (!this.isGameOver) {
+        this.checkCollisionsWithBottles();
+        this.checkCollisionsWithCoins();
+        this.checkCollisionsWithChickenOnJump();
+       
+      }
+    }, 50);
   }
+
+  checkEndbossCollision() {
+    let endbossHitbox = this.endboss.getHitbox();
+    
+    
+    if (this.character.x + this.character.width > endbossHitbox.x &&
+        this.character.x < endbossHitbox.x + endbossHitbox.width &&
+        this.character.y + this.character.height > endbossHitbox.y &&
+        this.character.y < endbossHitbox.y + endbossHitbox.height) {
+
+        let damage = 3;
+        this.character.hit(damage);
+        this.healthBar.setPercentage(this.character.energy);
+    }
+}
+
 
  
 
-  checkCollisionsWithChicken() {
+  checkCollisionsWithChickenOnJump() {
     this.level.enemies.forEach((chicken) => {
         if (this.character.isJumpingOn(chicken)) {
             console.log("Jumped on chicken!");
@@ -77,8 +106,6 @@ checkthrowableObjects() {
     this.bottlesBar.setBottlesCollected(this.character.collectedBottles, totalBottles); 
   }
 
-  // Keine Kollisionserkennung für Endboss hier mehr
-  
 }
 
 
@@ -86,7 +113,7 @@ checkthrowableObjects() {
 
 checkCollisions() {
   this.level.enemies.forEach((enemy) => {
-    // Prüfen, ob das Huhn tot ist
+  
     if (!enemy.isDead() && this.character.isColliding(enemy)) {
       this.character.hit();
       this.healthBar.setPercentage(this.character.energy);
@@ -129,62 +156,61 @@ checkCollisionsWithCoins() {
 }
 
 
-
-
-
-  
   
 
 draw() {
-  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-  // Speichere den aktuellen Zustand
-  this.ctx.save();
+  if (!this.isGameOver) {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+   
+   
+    
+    this.ctx.save();
+    this.ctx.translate(this.camera_x, 0);
+    this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.bottles);
+    this.ctx.translate(-this.camera_x, 0);
+    this.addToMap(this.healthBar);
+    this.addToMap(this.coinsBar);
+    this.addToMap(this.bottlesBar);
+    this.addToMap(this.endbossBar);
+    this.ctx.translate(this.camera_x, 0);
+    this.addToMap(this.character);
+    this.addObjectsToMap(this.level.enemies);
+    this.addToMap(this.endboss);
+    this.addObjectsToMap(this.throwableObjects);
+    this.ctx.restore();
+  }
+
+ 
+  if (this.isGameOver) {
+    if (this.character.isDead()) {
+      document.getElementById('you-lose-image').style.display = 'block';
+      document.getElementById('you-win-image').style.display = 'none';
+    } else if (this.endboss.isDeadEndboss) {
+      document.getElementById('you-win-image').style.display = 'block';
+      document.getElementById('you-lose-image').style.display = 'none'; 
+    }
+
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('new-game-button').style.display = 'block';
+  }
+
   
-  // Verschiebe die Kamera für den scrollenden Effekt
-  this.ctx.translate(this.camera_x, 0);
-  
-  // 1. Hintergrund zuerst
-  this.addObjectsToMap(this.level.backgroundObjects);
-  
-  // 2. Wolken (falls sie über dem Hintergrund, aber unter den Spielobjekten sein sollen)
-  this.addObjectsToMap(this.level.clouds);
-
-  // 3. Münzen, Flaschen und andere interaktive Objekte
-  this.addObjectsToMap(this.level.coins);
-  this.addObjectsToMap(this.level.bottles);
-  
-  // 4. Verschiebe die Kamera zurück
-  this.ctx.translate(-this.camera_x, 0);
-  
-  // 5. Statusleisten (immer im Vordergrund)
-  this.addToMap(this.healthBar);
-  this.addToMap(this.coinsBar);
-  this.addToMap(this.bottlesBar);
-  this.addToMap(this.endbossBar);
-
-
-  // Verschiebe die Kamera wieder für die Spielfigur und Feinde
-  this.ctx.translate(this.camera_x, 0);
-
-  // 6. Charakter
-  this.addToMap(this.character);
-
-  // 7. Feinde
-  this.addObjectsToMap(this.level.enemies);
-
-  // 8. Wurfobjekte (über allem, was geworfen wird)
-  this.addObjectsToMap(this.throwableObjects);
-  
-  // Restore den Zustand der Kamera
-  this.ctx.restore();
-
-  // Zeichne alles erneut in der nächsten Frame
-  let self = this;
-  requestAnimationFrame(function () {
+  if (!this.isGameOver) {
+    let self = this;
+    requestAnimationFrame(function () {
       self.draw();
-  });
+    });
+  }
 }
+
+
+
+
 
 
   addObjectsToMap(objects) {
@@ -218,4 +244,8 @@ draw() {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
+
+
+
+  
 }

@@ -4,6 +4,7 @@ class Character extends MovableObject {
   y = 215;
    width = 100;
   speed = 10;
+  energy = 100;
   
  
 
@@ -128,7 +129,7 @@ class Character extends MovableObject {
 
       if (this.isDead()) {
         this.playDeadAnimation();
-       
+        this.world.isGameOver = true;
 
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
@@ -152,15 +153,28 @@ class Character extends MovableObject {
     }, 150);
   }
 
+  isDead() {
+   
+    return this.energy == 0;
+  }
+  
+
+
+
+
   isJumpingOn(chicken) {
+    let horizontalOffset = this.width * 0.4; // Fügt links und rechts einen Spielraum hinzu
+    let verticalOffset = chicken.height * 0.2; // Macht die Kollision genauer auf die obere Fläche des Chickens
+
     return (
-        this.speedY < 0 &&  
-        this.y + this.height < chicken.y + chicken.height &&  
-        this.y + this.height > chicken.y &&  
-        this.x + this.width > chicken.x && 
-        this.x < chicken.x + chicken.width
+        this.speedY < 0 &&  // Der Charakter fällt nach unten
+        this.y + this.height < chicken.y + chicken.height - verticalOffset &&  // Kollision nur, wenn der Charakter die obere Fläche des Chickens berührt
+        this.y + this.height > chicken.y &&  // Der Charakter ist auf derselben Höhe oder darüber
+        this.x + this.width - horizontalOffset > chicken.x &&  // Horizontaler Kontakt: rechter Rand des Charakters trifft auf Chicken
+        this.x + horizontalOffset < chicken.x + chicken.width  // Horizontaler Kontakt: linker Rand des Charakters trifft auf Chicken
     );
 }
+
 
  
 }
