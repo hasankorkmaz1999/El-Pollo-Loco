@@ -136,10 +136,10 @@ collectCoin() {
   }
 
   isHurt() {
-    let timepassed = new Date().getTime() - this.lastHit; // Zeit seit dem letzten Treffer
-    timepassed = timepassed / 1000; // Zeit in Sekunden
+    let timepassed = new Date().getTime() - this.lastHit; 
+    timepassed = timepassed / 1000; 
 
-    return timepassed < 1.5 && this.energy > 0;  // Rückgabe true, wenn der Charakter in den letzten 1,5 Sekunden getroffen wurde und noch Energie hat
+    return timepassed < 1.5 && this.energy > 0;   
 }
 
 

@@ -30,7 +30,7 @@ class DrawableObject {
           ctx.lineWidth = "2";
           ctx.strokeStyle = "red";  // Farbe für den Charakter
           ctx.rect(this.x + hitboxOffsetX, this.y + hitboxOffsetY, hitboxWidth, hitboxHeight);
-          ctx.stroke();
+          
       } else if (this instanceof Coins) {
           // Individuelle Hitbox für Münzen
           let hitboxOffsetX = this.width * 0.3;
@@ -42,7 +42,7 @@ class DrawableObject {
           ctx.lineWidth = "2";
           ctx.strokeStyle = "blue";  // Farbe für Münzen
           ctx.rect(this.x + hitboxOffsetX, this.y + hitboxOffsetY, hitboxWidth, hitboxHeight);
-          ctx.stroke();
+        
       } else if (this instanceof Bottles) {
           // Individuelle Hitbox für Flaschen
           let hitboxOffsetX = this.width * 0.3;
@@ -54,7 +54,7 @@ class DrawableObject {
           ctx.lineWidth = "2";
           ctx.strokeStyle = "green";  // Farbe für Flaschen
           ctx.rect(this.x + hitboxOffsetX, this.y + hitboxOffsetY, hitboxWidth, hitboxHeight);
-          ctx.stroke();
+         
       }   else if (this instanceof Chicken) {
         // Individuelle Hitbox für Chicken
         let hitboxOffsetX = this.width * 0.1;
@@ -66,7 +66,7 @@ class DrawableObject {
         ctx.lineWidth = "2";
         ctx.strokeStyle = "orange";  // Farbe für Chicken
         ctx.rect(this.x + hitboxOffsetX, this.y + hitboxOffsetY, hitboxWidth, hitboxHeight);
-        ctx.stroke();
+       
     }
   }
   

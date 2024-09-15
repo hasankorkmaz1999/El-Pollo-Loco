@@ -19,6 +19,9 @@ class ThrowableObject extends MovableObject{
     splashPlayed = false; 
     world;  
 
+   
+   
+
     constructor(x, y, world){  
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_THROWN);
@@ -30,8 +33,10 @@ class ThrowableObject extends MovableObject{
         this.world = world; 
         this.throw();
         this.rotation();
+      
     }
 
+    
     throw () {
         this.speedY = 30;
         this.applyGravity();
@@ -101,6 +106,7 @@ class ThrowableObject extends MovableObject{
     playSplashAnimation() {
         if (!this.splashPlayed) {  
             this.splashPlayed = true;
+          
             clearInterval(this.throwInterval);  
             clearInterval(this.rotationInterval);  
             this.playAnimation(this.IMAGES_SPLASH);

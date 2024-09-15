@@ -149,7 +149,7 @@ class Endboss extends MovableObject {
 
     updateEndbossStatusbar() {
         if (this.world.endbossBar) {
-            let healthPercentage = (this.energy / 100) * 100;  
+            let healthPercentage = (this.energy / 100) * 600;  
             this.world.endbossBar.setPercentage(healthPercentage);
         }
     }

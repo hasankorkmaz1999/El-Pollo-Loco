@@ -10,21 +10,32 @@ class World {
   coinsBar = new CoinBar();    
   bottlesBar = new BottlesBar(); 
   endboss = new Endboss();
-
-  
-  isGameOver = false;
-  
-
   throwableObjects = [];
+  isGameOver = false;
 
-  constructor(canvas, keyboard) {
+  isMuted = false; 
+
+  background_sound = new Audio('audio/backgroundmusic.wav');
+  gameover_sound = new Audio ('audio/gameover.mp3');
+  chickensounds = new Audio ('audio/gackernchicken.wav');
+  deadchicken_sound = new Audio ('audio/deadchick.wav');
+  win_sound = new Audio ('audio/win.wav');
+  splash_sound = new Audio('audio/splash.wav');
+ 
+
+  constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.level = level;  // Stelle sicher, dass hier das Level zugewiesen wird
+    if (!this.level || !this.level.enemies) {
+        console.error("Das Level oder die enemies-Eigenschaft ist undefiniert!");
+        return;
+    }
     this.endbossBar = new EndbossStatusbar();
     this.endboss.world = this;
     this.level.enemies.forEach(enemy => {
-      enemy.world = this;
+        enemy.world = this;
     });
 
     this.draw();
@@ -32,15 +43,60 @@ class World {
     this.run();
     this.run2();
 
-   
-  }
+
+    this.background_sound.loop = true;  // Endlos wiederholen
+    this.background_sound.volume = 0.2; 
+    this.gameover_sound.volume = 0.5;
+    this.chickensounds.volume = 0.1; 
+    this.chickensounds.loop = true;
+    this.deadchicken_sound.volume = 0.3;
+    this.win_sound.volume = 0.5;
+  
+}
+
+
 
 
  
 
   setWorld() {
     this.character.world = this;
+    this.background_sound.play();
+    this.chickensounds.play();
   }
+
+  toggleMute() {
+    this.isMuted = !this.isMuted;
+    if (this.isMuted) {
+      this.muteAllSounds();
+      document.getElementById('mute-button').textContent = '🔇 '; // Change button icon/text
+    } else {
+      this.unmuteAllSounds();
+      document.getElementById('mute-button').textContent = '🔊 '; // Change button icon/text
+    }
+    this.throwableObjects.forEach(obj => obj.toggleMute());
+  }
+
+  muteAllSounds() {
+    this.background_sound.volume = 0;
+    this.gameover_sound.volume = 0;
+    this.chickensounds.volume = 0;
+    this.deadchicken_sound.volume = 0;
+    this.win_sound.volume = 0;
+   
+  }
+
+  unmuteAllSounds() {
+    this.background_sound.volume = 0.2;
+    this.gameover_sound.volume = 0.5;
+    this.chickensounds.volume = 0.1;
+    this.deadchicken_sound.volume = 0.3;
+    this.win_sound.volume = 0.5;
+  }
+
+
+
+
 
   run() {
     this.moveInterval = setInterval(() => {
@@ -86,8 +142,9 @@ class World {
   checkCollisionsWithChickenOnJump() {
     this.level.enemies.forEach((chicken) => {
         if (this.character.isJumpingOn(chicken)) {
-            console.log("Jumped on chicken!");
+          
             chicken.die();  
+            this.deadchicken_sound.play();
         }
     });
 }
@@ -155,6 +212,15 @@ checkCollisionsWithCoins() {
   });
 }
 
+checkIfAllChickensDead() {
+  let livingChickens = this.level.enemies.filter(enemy => enemy instanceof Chicken && !enemy.isDead());
+  if (livingChickens.length === 0) {
+     
+      this.chickensounds.pause();  // Stoppe die Hühnersounds
+  }
+}
+
+
 
   
 
@@ -183,20 +249,30 @@ draw() {
     this.addToMap(this.endboss);
     this.addObjectsToMap(this.throwableObjects);
     this.ctx.restore();
+
+    this.checkIfAllChickensDead();
   }
 
  
   if (this.isGameOver) {
     if (this.character.isDead()) {
+      this.gameover_sound.play();
+      this.background_sound.pause();
+      this.chickensounds.pause();
       document.getElementById('you-lose-image').style.display = 'block';
       document.getElementById('you-win-image').style.display = 'none';
     } else if (this.endboss.isDeadEndboss) {
+      this.background_sound.pause();
+      this.win_sound.play();
+      this.chickensounds.pause();
       document.getElementById('you-win-image').style.display = 'block';
       document.getElementById('you-lose-image').style.display = 'none'; 
     }
 
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('new-game-button').style.display = 'block';
+    document.getElementById('quit-game-button').style.display = 'block';
+
   }
 
   
