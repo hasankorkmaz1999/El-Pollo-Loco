@@ -33,60 +33,93 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     
 </head>
+
+
+
+
 <body >
 
     
-<h1>El Pollo Loco</h1>
+   <!--  <h1 id="h1">El Pollo Loco</h1> -->
 
-
-<div id="rotate-message">
-    <p>Please rotate your device !</p>
-</div>
-
-
-<div id="startscreen" class="startscreen">
-    <div class="startscreen-images">
-        <div class="button-container">
-            <button id="start-button">Start Game</button>
-            <button id="howtoplay-button" onclick="howToPlay()">How To Play</button>
-            <div id="imprint-button" onclick="showImprint()">Imprint</div>
-        </div>
-        <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+    <div id="rotate-message">
+        <p>Please rotate your device!</p>
     </div>
-</div>
 
-
-   
-    <canvas id="canvas" width="720" height="480"></canvas>
-   
-   
 
     
+
+    
+<div class="game-container">
+
+    <div id="startscreen" class="startscreen">
+            <img class="startscreen-image" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
+            <div class="button-container">
+                <button id="start-button">Start Game</button>
+                <button id="howtoplay-button" onclick="howToPlay()">How To Play</button>
+                <div id="imprint-button" onclick="showImprint()">Imprint</div>
+            </div>
+    </div>
     
 
-    <div class="overlay" id="overlay">
-        <!-- You Win Bild -->
-        <img id="you-win-image" src="img/9_intro_outro_screens/win/win_1.png" alt="You Win!" style="display: none;">
-    
-        <!-- You Lose Bild -->
+     <canvas id="canvas" width="720" height="480" ></canvas>
+
+
+     <div class="overlay" id="overlay">
         <img id="you-lose-image" src="img/9_intro_outro_screens/game_over/game over!.png" alt="You Lose!" style="display: none;">
-        
-        <!-- Button für Neustart -->
+
+        <div class="inside-overlay">
+        <img id="you-win-image" src="img/9_intro_outro_screens/win/win_1.png" alt="You Win!" style="display: none;">
         <button id="new-game-button" onclick="startNewGame()" style="display: none;">Start New Game</button>
         <button id="quit-game-button" onclick="quitGame()" style="display: none;">Quit</button>
+        </div>
 
     </div>
 
 
-       <!-- Modal für "How to Play" -->
-       <div id="howtoplay-modal" class="modal">
+    </div>
+
+
+
+        <!-- HUD (Hintergrund-Container) -->
+
+
+
+
+
+
+        <div id="hud" class="background-container">
+            <div class="panel">
+                <div class="pannel-wrapper">
+                    <div id="btnLeft" class="buttons">
+                        <img src="img/imgs/left.png" alt="Move Left">
+                    </div>
+                    <div id="btnRight" class="buttons">
+                        <img src="img/imgs/right (2).png" alt="Move Right">
+                    </div>
+                </div>
+                <div class="pannel-wrapper">
+                    <div id="btnJump" class="buttons">
+                        <img src="img/imgs/up.png" alt="Jump">
+                    </div>
+                    <button id="btnThrow" class="buttonsthrow">
+                        <img src="img/imgs/throw.png" alt="Throw Bottle">
+                    </button>
+                </div>
+            </div>
+        </div>
+   
+    
+    
+
+    <!-- Overlays -->
+   
+    <!-- Modal für "How to Play" -->
+    <div id="howtoplay-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeHowToPlay()">&times;</span>
             <h2>How To Play</h2>
-    
-            <!-- Flexbox-Container für Keybindings und Spielbeschreibung -->
             <div class="howtoplay-container">
-                <!-- Linke Spalte mit Keybindings -->
                 <div class="keybindings">
                     <p>Here are the key bindings for the game:</p>
                     <ul>
@@ -96,72 +129,39 @@
                         <li class="list"> <img class="imageskeyboard" src="img/imgs/letter-d.png" alt=""> Throw bottle</li>
                     </ul>
                 </div>
-    
-                <!-- Rechte Spalte mit der Spielbeschreibung -->
                 <div class="game-description">
                     <h3>About the Game</h3>
                     <p>
-                        In "El Pollo Loco", you play as a brave hero fighting through a world filled with enemies. Your main objective is to defeat the evil Endboss and collect coins and bottles along the way. Use your skills to navigate through the levels, defeat enemies, and survive the challenges ahead!
-                    </p>
-                    <p>
-                        Make sure to gather bottles to throw at enemies and collect coins to boost your score.
+                        In "El Pollo Loco", you play as a brave hero fighting through a world filled with enemies.
                     </p>
                 </div>
             </div>
         </div>
     </div>
-    
-    
-      
 
+    <!-- Imprint Modal -->
     <div id="imprint-modal" class="modal-imprint">
         <div class="modal-content-imprint">
             <span class="close-button" onclick="closeImprint()">&times;</span>
             <h3>Imprint</h3>
-            
             <p>Hasan Korkmaz</p>
             <p>Max-Fischer-Straße.20</p>
             <p>86399 Bobingen</p>
-
             <h4>Contact:</h4>
             <p>hasan_k2023@outlook.com</p>
-
         </div>
     </div>
 
-
-    <div id="hud" class="background-container">
-       
-
-        <div class="panel">
-
-            <div class="pannel-wrapper">
-                <div id="btnLeft" class="buttons"> <img src="img/imgs/left.png" alt=""></div>
-                <div id="btnRight" class="buttons"> <img src="img/imgs/right (2).png" alt=""></div>
-            </div>
-
-            <div class="pannel-wrapper">
-                <div id="btnJump" class="buttons"> <img src="img/imgs/up.png" alt=""></div>
-                <button id="btnThrow" class="buttonsthrow"> <img src="img/imgs/throw.png" alt=""></button>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="canvasdiv">
-        <button id="mute-button" onclick="toggleMute()">
-            <span id="mute-icon">🔊</span>
-          </button>
-        </div>  
-
-
-
-    
+    <!-- Mute Button -->
+    <button id="mute-button" onclick="toggleMute()">
+        <span id="mute-icon">🔊</span>
+    </button>
 
     <script src="js/script.js"></script>
 
 
 </body>
 </html>
+
+
+

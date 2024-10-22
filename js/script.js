@@ -1,32 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const startButton = document.getElementById('start-button');
-    const startscreen = document.getElementById('startscreen');
-    const canvas = document.getElementById('canvas');
-  
-    let gameStarted = false; // Variable zum Überprüfen, ob das Spiel bereits gestartet wurde
-  
-    startButton.addEventListener('click', () => {
-      // Verstecke den Startbildschirm und zeige das Spiel
+  const startButton = document.getElementById('start-button');
+  const startscreen = document.getElementById('startscreen');
+  const canvas = document.getElementById('canvas');
+
+  let gameStarted = false; // Variable zum Überprüfen, ob das Spiel bereits gestartet wurde
+
+  startButton.addEventListener('click', () => {
+      // Verstecke den Startbildschirm und zeige das Canvas
       hideStartScreen();
       startGame();
-    });
-  
-    function hideStartScreen() {
-      startscreen.style.display = 'none';
-      canvas.style.display = 'block'; // Zeige das Canvas
-    }
-  
-    function startGame() {
-      if (!gameStarted) {
-        // Starte das Spiel nur, wenn es noch nicht gestartet wurde
-        init();
-        gameStarted = true; // Markiere das Spiel als gestartet
-      } else {
-        // Neustart des Spiels, wenn es bereits gestartet wurde
-        startNewGame();
-      }
-    }
   });
+
+  function hideStartScreen() {
+    startscreen.style.display = 'none'; // Verstecke den Startbildschirm
+    canvas.style.display = 'block';     // Mache das Canvas sichtbar
+  }
+
+  function startGame() {
+    if (!gameStarted) {
+      // Starte das Spiel nur, wenn es noch nicht gestartet wurde
+      init();
+      gameStarted = true; // Markiere das Spiel als gestartet
+    } else {
+      // Neustart des Spiels, wenn es bereits gestartet wurde
+      startNewGame();
+    }
+  }
+});
+
   
   
 
@@ -37,13 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('you-win-image').style.display = 'none';
     document.getElementById('you-lose-image').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
-    quitGameButton.style.display = 'none';  // Verstecke den Quit-Button
-
+  
+    // Verstecke das Canvas, aber lass es im Layout bestehen
+    document.getElementById('canvas').style.visibility = 'hidden';
+    
     // Zeige den Startbildschirm wieder an
-    startscreen.style.display = 'block';  // Zeige den Startbildschirm an
-
-    // Verstecke das Canvas, damit es nicht im Hintergrund sichtbar ist
-    canvas.style.display = 'none';
+    document.getElementById('startscreen').style.display = 'block';
 }
  
 
@@ -81,13 +81,14 @@ window.onclick = function(event) {
 
 
 
-function checkScreenOrientation() {
+/* function checkScreenOrientation() {
   const rotateMessage = document.getElementById('rotate-message');
   if (window.innerHeight > window.innerWidth) { // Höhe ist größer als Breite (Portrait-Modus)
       rotateMessage.style.display = 'block';
       // Verstecke andere Elemente
       document.getElementById('startscreen').style.display = 'none';
       document.querySelector('canvas').style.display = 'none';
+      document.getElementById('h1').style.display = 'none';
       
   } else {
       rotateMessage.style.display = 'none';
@@ -105,4 +106,4 @@ checkScreenOrientation();
 window.addEventListener('resize', checkScreenOrientation);
 window.addEventListener('orientationchange', checkScreenOrientation);
 
-
+ */
