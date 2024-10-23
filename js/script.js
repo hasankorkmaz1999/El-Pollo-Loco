@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!gameStarted) {
       // Starte das Spiel nur, wenn es noch nicht gestartet wurde
       init();
-      gameStarted = true; // Markiere das Spiel als gestartet
+      gameStarted = true;
+      document.getElementById('mute-button').style.display = 'block' // Markiere das Spiel als gestartet
     } else {
       // Neustart des Spiels, wenn es bereits gestartet wurde
       startNewGame();
@@ -39,12 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('you-lose-image').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
   
-    // Verstecke das Canvas, aber lass es im Layout bestehen
-    document.getElementById('canvas').style.visibility = 'hidden';
+    // Verstecke das Canvas komplett (nicht nur visibility)
+    document.getElementById('canvas').style.display = 'none';
     
     // Zeige den Startbildschirm wieder an
-    document.getElementById('startscreen').style.display = 'block';
+    document.getElementById('startscreen').style.display = 'flex'; // Stelle sicher, dass der Startscreen angezeigt wird
 }
+
  
 
 function howToPlay() {
@@ -81,29 +83,3 @@ window.onclick = function(event) {
 
 
 
-/* function checkScreenOrientation() {
-  const rotateMessage = document.getElementById('rotate-message');
-  if (window.innerHeight > window.innerWidth) { // Höhe ist größer als Breite (Portrait-Modus)
-      rotateMessage.style.display = 'block';
-      // Verstecke andere Elemente
-      document.getElementById('startscreen').style.display = 'none';
-      document.querySelector('canvas').style.display = 'none';
-      document.getElementById('h1').style.display = 'none';
-      
-  } else {
-      rotateMessage.style.display = 'none';
-      // Zeige andere Elemente an
-      document.getElementById('startscreen').style.display = 'block';
-     
-    
-  }
-}
-
-// Überprüfe die Bildschirmgröße beim Laden der Seite
-checkScreenOrientation();
-
-// Überprüfe die Bildschirmgröße bei Größenänderung
-window.addEventListener('resize', checkScreenOrientation);
-window.addEventListener('orientationchange', checkScreenOrientation);
-
- */

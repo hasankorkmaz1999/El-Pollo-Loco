@@ -31,6 +31,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kablammo&display=swap" rel="stylesheet">
     
 </head>
 
@@ -40,7 +41,7 @@
 <body >
 
     
-   <!--  <h1 id="h1">El Pollo Loco</h1> -->
+    
 
     <div id="rotate-message">
         <p>Please rotate your device!</p>
@@ -51,6 +52,34 @@
 
     
 <div class="game-container">
+    <h1 id="h1">El Pollo Loco</h1> 
+
+    <div class="containerforbuttons">
+
+    <div id="hud" class="background-container">
+        <div class="panel">
+            <div class="pannel-wrapper">
+                <div id="btnLeft" class="buttons">
+                    <img src="img/imgs/left.png" alt="Move Left">
+                </div>
+                <div id="btnRight" class="buttons">
+                    <img src="img/imgs/right (2).png" alt="Move Right">
+                </div>
+            </div>
+            <div class="pannel-wrapper">
+                <div id="btnJump" class="buttons">
+                    <img src="img/imgs/up.png" alt="Jump">
+                </div>
+                <button id="btnThrow" class="buttonsthrow">
+                    <img src="img/imgs/throw.png" alt="Throw Bottle">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="canvas" width="720" height="480" ></canvas>
+
+
 
     <div id="startscreen" class="startscreen">
             <img class="startscreen-image" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
@@ -62,13 +91,17 @@
     </div>
     
 
-     <canvas id="canvas" width="720" height="480" ></canvas>
+    <button id="mute-button" onclick="toggleMute()">
+        <span id="mute-icon">🔊</span>
+    </button>
+    
 
 
      <div class="overlay" id="overlay">
-        <img id="you-lose-image" src="img/9_intro_outro_screens/game_over/game over!.png" alt="You Lose!" style="display: none;">
 
         <div class="inside-overlay">
+            <img id="you-lose-image" src="img/9_intro_outro_screens/game_over/Screenshot_2024-10-22_155850-removebg-preview.png" alt="You Lose!" style="display: none;">
+
         <img id="you-win-image" src="img/9_intro_outro_screens/win/win_1.png" alt="You Win!" style="display: none;">
         <button id="new-game-button" onclick="startNewGame()" style="display: none;">Start New Game</button>
         <button id="quit-game-button" onclick="quitGame()" style="display: none;">Quit</button>
@@ -80,34 +113,16 @@
     </div>
 
 
+</div>
 
         <!-- HUD (Hintergrund-Container) -->
 
 
+        
 
 
 
-
-        <div id="hud" class="background-container">
-            <div class="panel">
-                <div class="pannel-wrapper">
-                    <div id="btnLeft" class="buttons">
-                        <img src="img/imgs/left.png" alt="Move Left">
-                    </div>
-                    <div id="btnRight" class="buttons">
-                        <img src="img/imgs/right (2).png" alt="Move Right">
-                    </div>
-                </div>
-                <div class="pannel-wrapper">
-                    <div id="btnJump" class="buttons">
-                        <img src="img/imgs/up.png" alt="Jump">
-                    </div>
-                    <button id="btnThrow" class="buttonsthrow">
-                        <img src="img/imgs/throw.png" alt="Throw Bottle">
-                    </button>
-                </div>
-            </div>
-        </div>
+        
    
     
     
@@ -132,8 +147,10 @@
                 <div class="game-description">
                     <h3>About the Game</h3>
                     <p>
-                        In "El Pollo Loco", you play as a brave hero fighting through a world filled with enemies.
+                        In "El Pollo Loco," you play as a hero battling through a world filled with dangerous chickens. Smaller chickens attack in groups, while larger ones require careful strategy to defeat. Along the way, you'll collect valuable items and face tougher enemies. The ultimate challenge is the powerful Endboss, a giant chicken with devastating attacks. Only by defeating it can you bring peace to the land.
                     </p>
+                    
+                    
                 </div>
             </div>
         </div>
@@ -153,9 +170,7 @@
     </div>
 
     <!-- Mute Button -->
-    <button id="mute-button" onclick="toggleMute()">
-        <span id="mute-icon">🔊</span>
-    </button>
+    
 
     <script src="js/script.js"></script>
 
