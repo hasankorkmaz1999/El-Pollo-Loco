@@ -27,7 +27,7 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    this.level = level;  // Stelle sicher, dass hier das Level zugewiesen wird
+    this.level = level;  
     if (!this.level || !this.level.enemies) {
         console.error("Das Level oder die enemies-Eigenschaft ist undefiniert!");
         return;
@@ -44,7 +44,7 @@ class World {
     this.run2();
 
 
-    this.background_sound.loop = true;  // Endlos wiederholen
+    this.background_sound.loop = true; 
     this.background_sound.volume = 0.2; 
     this.gameover_sound.volume = 0.5;
     this.chickensounds.volume = 0.1; 
@@ -69,10 +69,10 @@ class World {
     this.isMuted = !this.isMuted;
     if (this.isMuted) {
       this.muteAllSounds();
-      document.getElementById('mute-button').textContent = '🔇 '; // Change button icon/text
+      document.getElementById('mutebutton').textContent = '🔇 '; 
     } else {
       this.unmuteAllSounds();
-      document.getElementById('mute-button').textContent = '🔊 '; // Change button icon/text
+      document.getElementById('mutebutton').textContent = '🔊 '; 
     }
     this.throwableObjects.forEach(obj => obj.toggleMute());
   }
@@ -154,16 +154,21 @@ class World {
 
 checkthrowableObjects() {
   if (this.keyboard.D && this.character.collectedBottles > 0) {
-    let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 80, this);
-    this.throwableObjects.push(bottle);
-    this.character.collectedBottles--;
+      
+      if (ThrowableObject.canThrow()) {
+          let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 80, this);
+          this.throwableObjects.push(bottle);
+          this.character.collectedBottles--;
 
-    let totalBottles = 10; 
-    let percentage = (this.character.collectedBottles / totalBottles) * 100;
-    this.bottlesBar.setBottlesCollected(this.character.collectedBottles, totalBottles); 
+          let totalBottles = 10; 
+          let percentage = (this.character.collectedBottles / totalBottles) * 100;
+          this.bottlesBar.setBottlesCollected(this.character.collectedBottles, totalBottles); 
+
+          ThrowableObject.startCooldown();  
+      }
   }
-
 }
+
 
 
 
@@ -216,7 +221,7 @@ checkIfAllChickensDead() {
   let livingChickens = this.level.enemies.filter(enemy => enemy instanceof Chicken && !enemy.isDead());
   if (livingChickens.length === 0) {
      
-      this.chickensounds.pause();  // Stoppe die Hühnersounds
+      this.chickensounds.pause();  
   }
 }
 
@@ -283,6 +288,8 @@ draw() {
     });
   }
 }
+
+
 
 
 

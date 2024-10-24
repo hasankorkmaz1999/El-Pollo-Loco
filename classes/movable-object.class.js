@@ -28,9 +28,9 @@ class MovableObject extends DrawableObject {
   
 
   isColliding(mo) {
-    // Kollisions-Hitbox für Münzen
+   
     if (mo instanceof Coins) {  
-        let hitboxOffsetX = mo.width * 0.55;  // Gleiche Werte wie in drawFrame
+        let hitboxOffsetX = mo.width * 0.55;  
         let hitboxOffsetY = mo.height * 0.01;
         let hitboxWidth = mo.width * -0.1;
         let hitboxHeight = mo.height * 0.01;
@@ -43,9 +43,9 @@ class MovableObject extends DrawableObject {
         );
     }
 
-    // Kollisions-Hitbox für Flaschen
+    
     if (mo instanceof Bottles) {
-        let hitboxOffsetX = mo.width * 0.8;  // Gleiche Werte wie in drawFrame
+        let hitboxOffsetX = mo.width * 0.8;  
         let hitboxOffsetY = mo.height * 0.15;
         let hitboxWidth = mo.width * -0.7;
         let hitboxHeight = mo.height * 0.7;
@@ -59,10 +59,10 @@ class MovableObject extends DrawableObject {
     }
 
     if (mo instanceof Chicken) {
-      let hitboxOffsetX = mo.width * 0.5;  // Passe den Wert je nach gewünschter Hitbox an
+      let hitboxOffsetX = mo.width * 0.5;  
       let hitboxOffsetY = mo.height * 0.55;
-      let hitboxWidth = mo.width * 0.1;    // Schmalere Hitbox
-      let hitboxHeight = mo.height * 0.1;  // Schmalere Hitbox
+      let hitboxWidth = mo.width * 0.1;    
+      let hitboxHeight = mo.height * 0.1;  
 
       return (
           this.x + this.width > mo.x + hitboxOffsetX &&       
@@ -72,9 +72,9 @@ class MovableObject extends DrawableObject {
       );
   }
 
-    // Kollisions-Hitbox für den Charakter
+    
     if (this instanceof Character) {
-      let hitboxOffsetX = this.width * 0.6;  // Symmetrische Anpassung für den Charakter
+      let hitboxOffsetX = this.width * 0.6;  
       let hitboxOffsetY = this.height * 0.15;
       let hitboxWidth = this.width * 0.6;
       let hitboxHeight = this.height * 0.7;
@@ -88,7 +88,7 @@ class MovableObject extends DrawableObject {
     }
 
    
-    // Standard-Kollisionsabfrage für alle anderen Objekte
+   
     return (
         this.x + this.width > mo.x &&       
         this.x < mo.x + mo.width &&         

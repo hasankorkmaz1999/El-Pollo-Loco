@@ -2,14 +2,15 @@ class Endboss extends MovableObject {
     height = 350;
     width = 250;
     y = 80;
-    energy = 100; // Energie für den Endboss
-    isHurt = false;  // Zustand, ob der Endboss verletzt wurde
-    isDeadEndboss = false;  // Zustand, ob der Endboss tot ist
-    isAttacking = false;  // Zustand, ob der Endboss gerade angreift
-    speed = 30.95;
-    attackCooldown = 3000;  // Cooldown zwischen Angriffen in Millisekunden
-
-    hitboxOffsetX = 70; // Manuelle Offset-Werte
+    energy = 110; 
+    isHurt = false;  
+    isDeadEndboss = false;  
+    isAttacking = false;  
+    speed = 50; 
+    attackCooldown = 3000;  
+    hasSeenCharacter = false; 
+    direction = 'left'; 
+    hitboxOffsetX = 70; 
     hitboxOffsetY = 50;
     hitboxWidth = 10;
     hitboxHeight = 340;
@@ -63,15 +64,22 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ATTACK);
 
-        this.x = 2500;
+        this.x = 2450;  
+        this.otherDirection = false; 
         this.animate();
         this.attack();  
     }
 
     isInSight() {
         if (this.world && this.world.character) {
-            let distanceToCharacter = this.world.character.x - this.x;
-            return distanceToCharacter < 500 && distanceToCharacter > -1000;
+            let distanceToCharacter = Math.abs(this.world.character.x - this.x);
+            let inSight = distanceToCharacter < 500 && distanceToCharacter > -1000;
+
+            if (inSight) {
+                this.hasSeenCharacter = true; 
+            }
+
+            return inSight;
         }
         return false;  
     }
@@ -93,8 +101,10 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAttacking) {
                 this.playAttackAnimation();  
-            } else if (this.isInSight()) {
+            } else if (this.hasSeenCharacter) {  
                 this.walk();
+                this.checkDirection();
+             
             } else {
                 this.playAnimation(this.IMAGES_ALERT);
             }
@@ -103,16 +113,38 @@ class Endboss extends MovableObject {
 
     walk() {
         this.playAnimation(this.IMAGES_WALKING);
-        this.x -= this.speed;
+        if (this.direction === 'left') {
+            this.x -= this.speed;
+        } else {
+            this.x += this.speed;
+        }
     }
+
    
+    checkDirection() {
+        if (this.world.character) {
+          
+            if (this.x < this.world.character.x && this.direction === 'left') {
+                this.direction = 'right';  
+                this.otherDirection = true; 
+            } 
+            else if (this.x > this.world.character.x && this.direction === 'right') {
+                this.direction = 'left';  
+                this.otherDirection = false; 
+            }
+        }
+    }
+
+
+    
+
     attack() {
         setInterval(() => {
             if (this.isInSight() && !this.isDeadEndboss) {
                 this.isAttacking = true;
                 setTimeout(() => {
                     this.isAttacking = false;  
-                }, 2000);  
+                }, 1000);  
             }
         }, this.attackCooldown);  
     }

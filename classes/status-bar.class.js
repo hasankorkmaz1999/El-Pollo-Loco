@@ -75,11 +75,11 @@ class StatusBar extends DrawableObject {
       this.y = 35;
       this.width = 200;
       this.height = 60;
-      this.setPercentage(0);  // Initialisiere mit 0%
+      this.setPercentage(0); 
     }
   
     setPercentage(percentage) {
-      this.percentage = percentage;  // Setze den Prozentwert für Coins
+      this.percentage = percentage;  
       let path = this.IMAGES[this.resolveImageIndex()];
       this.img = this.imageCache[path];
     }
@@ -113,7 +113,7 @@ class StatusBar extends DrawableObject {
       'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png',
     ];
   
-    collectedBottles = 0;  // Flaschen-Sammelstatus
+    collectedBottles = 0;  
 
     constructor() {
       super();
@@ -122,11 +122,11 @@ class StatusBar extends DrawableObject {
       this.y = 85;
       this.width = 200;
       this.height = 60;
-      this.setPercentage(0);  // Initialisiere mit 0% am Anfang
+      this.setPercentage(0); 
     }
   
     setBottlesCollected(collectedBottles, totalBottles) {
-      this.collectedBottles = collectedBottles;  // Aktualisiere Anzahl gesammelter Flaschen
+      this.collectedBottles = collectedBottles;  
       
       this.percentage = (collectedBottles / totalBottles) * 100;
       let path = this.IMAGES[this.resolveImageIndex()];

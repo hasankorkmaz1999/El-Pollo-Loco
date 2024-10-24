@@ -4,7 +4,7 @@ class Chicken extends MovableObject {
     height = 65;
     dead = false;
     energy = 100;
-    isRemoved = false;  // Neue Eigenschaft hinzugefügt, um zu überprüfen, ob das Huhn bereits entfernt wurde
+    isRemoved = false;   
 
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -19,8 +19,8 @@ class Chicken extends MovableObject {
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 700 + Math.random() * 500;
-        this.speed = 0.15 + Math.random() * 0.5;
+        this.x = 800 + Math.random() * 1500;
+        this.speed = 0.25 + Math.random() * 0.5;
         this.animate();
     }
 
@@ -39,18 +39,18 @@ class Chicken extends MovableObject {
     }
 
     isDead() {
-        return this.energy <= 0 || this.dead;  // Gibt true zurück, wenn das Huhn tot ist
+        return this.energy <= 0 || this.dead; 
     }
 
     die() {
-        if (!this.isRemoved) {  // Verhindert das doppelte Entfernen des Huhns
+        if (!this.isRemoved) {  
             this.dead = true;
             this.speed = 0;
-            this.loadImage(this.IMAGES_DEAD[0]);  // Lade das Bild des toten Huhns
-            this.stopAnimations();  // Stoppe die Animationen
+            this.loadImage(this.IMAGES_DEAD[0]); 
+            this.stopAnimations();  
             setTimeout(() => {
-                this.removeFromWorld();  // Entferne das Huhn nach 1,5 Sekunden
-            }, 1000);  // Warte 1,5 Sekunden, bevor das Huhn entfernt wird
+                this.removeFromWorld();  
+            }, 1000); 
         }
     }
 
@@ -59,7 +59,7 @@ class Chicken extends MovableObject {
             let index = this.world.level.enemies.indexOf(this);
             if (index > -1) {
                 this.world.level.enemies.splice(index, 1);
-                this.isRemoved = true;  // Markiere das Huhn als entfernt
+                this.isRemoved = true; 
             }
         } else {
             console.error('world oder level ist undefined in removeFromWorld');
@@ -91,20 +91,20 @@ class smallChicken extends Chicken {
     constructor() {
         super();
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 700 + Math.random() * 500;
+        this.x = 700 + Math.random() * 2500;
         this.speed = 0.15 + Math.random() * 0.5;
         this.animate();
     }
 
     die() {
-        if (!this.isRemoved) {  // Verhindert das doppelte Entfernen des kleinen Huhns
+        if (!this.isRemoved) { 
             this.dead = true;  
             this.speed = 0;    
             this.loadImage(this.IMAGES_DEAD[0]);  
-            this.stopAnimations();  // Stoppe die Animationen
+            this.stopAnimations();  
             setTimeout(() => {
-                this.removeFromWorld();  // Entferne das kleine Huhn nach 1,5 Sekunden
-            }, 1000);  // Warte 1,5 Sekunden
+                this.removeFromWorld();  
+            }, 1000);  
         }
     }
 }

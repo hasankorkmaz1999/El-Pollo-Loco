@@ -140,12 +140,12 @@ class Character extends MovableObject {
        
 
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        // Walk Animation
+       
         this.playAnimation(this.IMAGES_WALKING);
        
 
       } else  {
-        // IDLE Animation, wenn keine Bewegungstaste gedrückt wird
+       
         this.playAnimation(this.IMAGES_IDLE);
         
       }
@@ -163,15 +163,15 @@ class Character extends MovableObject {
 
 
   isJumpingOn(chicken) {
-    let horizontalOffset = this.width * 0.4; // Fügt links und rechts einen Spielraum hinzu
-    let verticalOffset = chicken.height * 0.2; // Macht die Kollision genauer auf die obere Fläche des Chickens
+    let horizontalOffset = this.width * 0.4; 
+    let verticalOffset = chicken.height * 0.2; 
 
     return (
-        this.speedY < 0 &&  // Der Charakter fällt nach unten
-        this.y + this.height < chicken.y + chicken.height - verticalOffset &&  // Kollision nur, wenn der Charakter die obere Fläche des Chickens berührt
-        this.y + this.height > chicken.y &&  // Der Charakter ist auf derselben Höhe oder darüber
-        this.x + this.width - horizontalOffset > chicken.x &&  // Horizontaler Kontakt: rechter Rand des Charakters trifft auf Chicken
-        this.x + horizontalOffset < chicken.x + chicken.width  // Horizontaler Kontakt: linker Rand des Charakters trifft auf Chicken
+        this.speedY < 0 &&  
+        this.y + this.height < chicken.y + chicken.height - verticalOffset &&  
+        this.y + this.height > chicken.y &&  
+        this.x + this.width - horizontalOffset > chicken.x && 
+        this.x + horizontalOffset < chicken.x + chicken.width  
     );
 }
 
