@@ -2,6 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start-button');
   const startscreen = document.getElementById('startscreen');
   const canvas = document.getElementById('canvas');
+  const hud = document.getElementById('hud');
+  const mutebutton = document.getElementById('mutebutton');
+  
+  // Funktion zur Erkennung von Touch-Geräten
+  function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  }
 
   let gameStarted = false; // Variable zum Überprüfen, ob das Spiel bereits gestartet wurde
 
@@ -18,18 +25,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startGame() {
     if (!gameStarted) {
-      // Starte das Spiel nur, wenn es noch nicht gestartet wurde
+      console.log("Starting game...");
       init();
       gameStarted = true;
-      document.getElementById('mute-button').style.display = 'block' // Markiere das Spiel als gestartet
+
+      mutebutton.style.display = 'block'; 
+
+      // Überprüfen, ob das Gerät im Hochformat oder Querformat ist
+      if (window.innerHeight > window.innerWidth) {
+        hud.style.display = 'none'; // Verstecke das HUD im Hochformat
+        console.log("Device in portrait mode. HUD hidden.");
+      } else {
+        // Zeige das HUD nur auf Touch-Geräten an
+        if (isTouchDevice()) {
+          hud.style.display = 'block'; // Zeige das HUD im Querformat
+          console.log("Touch device detected. HUD visible.");
+        } else {
+          hud.style.display = 'none'; // Verstecke das HUD auf Nicht-Touch-Geräten
+          console.log("Non-touch device. HUD hidden.");
+        }
+      }
+     
     } else {
-      // Neustart des Spiels, wenn es bereits gestartet wurde
-      startNewGame();
+      startNewGame(); // Neustart des Spiels, wenn es bereits gestartet wurde
     }
   }
 });
 
-  
   
 
   let quitGameButton = document.getElementById('quit-game-button'); 
@@ -80,6 +102,60 @@ window.onclick = function(event) {
       imprintModal.style.display = 'none';
   }
 }
+
+
+
+
+function checkScreenOrientation() {
+  const rotateMessage = document.getElementById('rotate-message');
+  const startscreen = document.getElementById('startscreen');
+  const canvas = document.querySelector('canvas');
+  const hud = document.getElementById('hud');
+  const h1 = document.getElementById('h1');
+  const mutebutton = document.getElementById('mutebutton');
+  const gamecontainer = document.getElementById('gamecontainer');
+ 
+    
+ 
+  if (window.innerHeight > window.innerWidth ) { // Hochformat (Portrait-Modus)
+      rotateMessage.style.display = 'flex'; // Zeige die Rotate-Message
+      // Verstecke nur die Sichtbarkeit, damit das Spiel weiterläuft
+      gamecontainer.style.display = 'none';
+     
+  } else { 
+    gameStarted = true;// Querformat (Landscape-Modus)
+      rotateMessage.style.display = 'none'; // Verstecke die Rotate-Message
+      // Stelle die Sichtbarkeit wieder her
+      
+      gamecontainer.style.display = 'flex';
+      
+  }
+}
+
+// Überprüfe die Bildschirmgröße beim Laden der Seite
+checkScreenOrientation();
+
+// Überprüfe die Bildschirmgröße bei Größenänderung oder Orientierung ändern
+window.addEventListener('resize', checkScreenOrientation);
+window.addEventListener('orientationchange', checkScreenOrientation);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

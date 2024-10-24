@@ -9,7 +9,10 @@ body {
     height: 100vh;
     overflow-x: hidden;
     overflow-y: hidden;
-  
+    background-image: url('img/imgs/background.webp');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; /* Nimmt die volle Höhe des Bildschirms ein */
 }
 
 
@@ -35,10 +38,7 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url('img/imgs/background.webp');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover; /* Nimmt die volle Höhe des Bildschirms ein */
+  
 }
 
 
@@ -54,10 +54,7 @@ canvas {
    
 }
 
-.startscreen {
-    
-}
- 
+
 
 .button-container {
     position: absolute; /* Relativ zum Canvas positioniert */
@@ -77,7 +74,7 @@ canvas {
 .startscreen-image {
     height: 480px;
     width: 720px;
-   z-index: 20;
+   z-index: 2000;
 }
 
 
@@ -181,17 +178,19 @@ canvas {
 
   
 
-.background-container {
-    position: absolute; /* Relativ zum Canvas positioniert */
-    bottom: 0;         /* Platziert es am unteren Rand des Canvas */
-    left: 50%;          /* Zentriert das Panel horizontal */
-    transform: translateX(-50%); /* Korrektur, um es genau in der Mitte zu platzieren */
-    display: none;
-    z-index: 1;         /* Stelle sicher, dass es über dem Canvas liegt */
-    width: 100%;        /* Macht sicher, dass es über die ganze Breite geht */
-    max-width: 620px;   /* Beschränke die maximale Breite */
-}
 
+
+
+#hud {
+    display: none;  /* Verstecke das HUD standardmäßig */
+    position: absolute;  /* Relativ zum Canvas positioniert */
+    bottom: 0;           /* Platziert es am unteren Rand des Canvas */
+    left: 50%;           /* Zentriert das Panel horizontal */
+    transform: translateX(-50%); /* Korrektur, um es genau in der Mitte zu platzieren */
+      z-index: 100;    /* Stelle sicher, dass es über dem Canvas liegt */
+    width: 100%;         /* Macht sicher, dass es über die ganze Breite geht */
+    max-width: 620px;    /* Beschränke die maximale Breite */
+}
 
 
 
@@ -228,7 +227,7 @@ canvas {
 }
 
 
-#mute-button {
+#mutebutton {
     display: none;
     z-index: 1;
     height: 50px;
@@ -459,7 +458,7 @@ align-items: flex-end;
     display: none;
     position: fixed;
     height: 300px;
-    width: 500px;
+    width: 300px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

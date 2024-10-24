@@ -13,7 +13,7 @@ function init() {
     const initialLevel = createLevel();
     world = new World(canvas, keyboard, initialLevel);
 
-    showBackgroundContainer(); // Hintergrundsteuerungselemente anzeigen
+    // Hintergrundsteuerungselemente anzeigen
 }
 
 function startNewGame() {
@@ -21,7 +21,7 @@ function startNewGame() {
     document.getElementById('you-lose-image').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('new-game-button').style.display = 'none';
-
+   
     world.isGameOver = false;
     keyboard = new Keyboard();
 
@@ -32,9 +32,9 @@ function startNewGame() {
 
     world.isMuted = false;
     world.unmuteAllSounds();
-    document.getElementById('mute-button').textContent = '🔊';
+    document.getElementById('mutebutton').textContent = '🔊';
 
-    showBackgroundContainer(); // Hintergrundsteuerungselemente anzeigen
+   
 }
 
 function quitGame() {
@@ -51,18 +51,12 @@ function quitGame() {
 
     world.isMuted = false;
     world.unmuteAllSounds();
-    document.getElementById('mute-button').textContent = '🔊';
+    document.getElementById('mutebutton').textContent = '🔊';
 
-    hideBackgroundContainer(); // Hintergrundsteuerungselemente ausblenden
+    // Hintergrundsteuerungselemente ausblenden
 }
 
-function showBackgroundContainer() {
-    document.querySelector('.background-container').style.display = 'block';
-}
 
-function hideBackgroundContainer() {
-    document.querySelector('.background-container').style.display = 'none';
-}
 
 window.addEventListener('keydown', (event) => {
     if (event.keyCode == 39) {
@@ -121,9 +115,21 @@ function createLevel() {
         [
             new Chicken(),
             new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
             new smallChicken(),
             new smallChicken(),
             new smallChicken(),
+            new smallChicken(),
+            new smallChicken(),
+            new smallChicken(),
+            new smallChicken(),
+            new smallChicken(),
+            new smallChicken(),
+            new smallChicken(),
+            
         ],
         [
             new Cloud()
