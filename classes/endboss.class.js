@@ -2,7 +2,7 @@ class Endboss extends MovableObject {
     height = 350;
     width = 250;
     y = 80;
-    energy = 110; 
+    energy = 100; 
     isHurt = false;  
     isDeadEndboss = false;  
     isAttacking = false;  
@@ -154,35 +154,43 @@ class Endboss extends MovableObject {
     }
 
     hitEndboss() {
-        if (!this.isDeadEndboss) {
-            this.energy -= 15;  
+        if (!this.isDeadEndboss) {  // Nur wenn der Endboss noch lebt
+            this.energy -= 10;  // Reduziere die Energie
             this.isHurt = true;  
-    
-            this.updateEndbossStatusbar();
-    
+
+            console.log(`Endboss getroffen! Aktuelle Energie: ${this.energy}`);  // Debug-Ausgabe für Treffer
+
+            this.updateEndbossStatusbar();  // Aktualisiere Statusbar
+
             setTimeout(() => {
                 this.isHurt = false;  
             }, 500);  
-    
+        
             if (this.energy <= 0) {
-                this.die();
+                this.die();  // Rufe die die()-Methode auf, wenn die Energie 0 erreicht oder darunter fällt
             }
         }
     }
     
     die() {
-        this.isDeadEndboss = true;  
-        setTimeout(() => {
-            clearInterval(this.animationInterval);  
-            this.removeFromWorld(); 
-            this.world.isGameOver = true;
-        }, 2000);  
+        if (!this.isDeadEndboss) {  // Nur sterben, wenn der Endboss noch lebt
+            this.isDeadEndboss = true;  // Markiere den Endboss als tot
+            console.log('Endboss stirbt!');  // Debug-Ausgabe für Tod
+
+            this.playAnimation(this.IMAGES_DEAD);  // Abspielen der Sterbeanimation
+            setTimeout(() => {
+                this.removeFromWorld(); 
+                this.world.isGameOver = true;
+            }, 2000);  
+        }
     }
 
     updateEndbossStatusbar() {
         if (this.world.endbossBar) {
-            let healthPercentage = (this.energy / 100) * 600;  
+            // Berechne die Energie in Prozent und aktualisiere die Statusbar
+            let healthPercentage = Math.max((this.energy / 100) * 100, 0);  
             this.world.endbossBar.setPercentage(healthPercentage);
+            console.log(`Statusbar aktualisiert: ${healthPercentage}%`);  // Debug-Ausgabe für Statusbar
         }
     }
 

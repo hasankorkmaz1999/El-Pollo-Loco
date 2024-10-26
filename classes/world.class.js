@@ -32,8 +32,9 @@ class World {
         console.error("Das Level oder die enemies-Eigenschaft ist undefiniert!");
         return;
     }
-    this.endbossBar = new EndbossStatusbar();
     this.endboss.world = this;
+    this.endbossBar = new EndbossStatusbar();
+   
     this.level.enemies.forEach(enemy => {
         enemy.world = this;
     });
