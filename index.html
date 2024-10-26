@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>El Pollo Loco</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
-    <script src="classes/drawable-object.class.js"></script>    
+    <script src="classes/drawable-object.class.js"></script>
     <script src="classes/movable-object.class.js"></script>
-        
+
     <script src="classes/character.class.js"></script>
     <script src="classes/chicken.class.js"></script>
     <script src="classes/cloud.class.js"></script>
@@ -17,164 +17,190 @@
     <script src="classes/status-bar.class.js"></script>
     <script src="classes/background-object.class.js"></script>
     <script src="classes/endboss.class.js"></script>
-    
+
     <script src="classes/keyboard.class.js"></script>
-    <script src="classes/world.class.js"></script> 
+    <script src="classes/world.class.js"></script>
     <script src="classes/level.class.js"></script>
     <script src="classes/throwable-object.class.js"></script>
-    
+
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
-   
 
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="img/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="img/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="img/favicon/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="img/favicon/favicon.ico" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Kablammo&display=swap" rel="stylesheet">
-    
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kablammo&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-
-
-
-<body >
-
-    
-    
-
+  <body>
     <div id="rotate-message">
-        <p>Please rotate your device!</p>
+      <p>Please rotate your device!</p>
     </div>
 
+    <div id="gamecontainer" class="game-container">
+      <h1 id="h1">El Pollo Loco</h1>
 
-    
-
-    
-<div id="gamecontainer" class="game-container">
-    <h1 id="h1">El Pollo Loco</h1> 
-
-    <div class="containerforbuttons">
-
-    <div id="hud">
-        <div class="panel">
+      <div class="containerforbuttons">
+        <div id="hud">
+          <div class="panel">
             <div class="pannel-wrapper">
-                <div id="btnLeft" class="buttons">
-                    <img src="img/imgs/left.png" alt="Move Left">
-                </div>
-                <div id="btnRight" class="buttons">
-                    <img src="img/imgs/right (2).png" alt="Move Right">
-                </div>
+              <div id="btnLeft" class="buttons">
+                <img src="img/imgs/left.png" alt="Move Left" />
+              </div>
+              <div id="btnRight" class="buttons">
+                <img src="img/imgs/right (2).png" alt="Move Right" />
+              </div>
             </div>
             <div class="pannel-wrapper">
-                <div id="btnJump" class="buttons">
-                    <img src="img/imgs/up.png" alt="Jump">
-                </div>
-                <button id="btnThrow" class="buttonsthrow">
-                    <img src="img/imgs/throw.png" alt="Throw Bottle">
-                </button>
+              <div id="btnJump" class="buttons">
+                <img src="img/imgs/up.png" alt="Jump" />
+              </div>
+              <button id="btnThrow" class="buttonsthrow">
+                <img src="img/imgs/throw.png" alt="Throw Bottle" />
+              </button>
             </div>
-        </div>
-    </div>
-
-    <canvas id="canvas" width="720" height="480" ></canvas>
-
-
-
-    <div id="startscreen" class="startscreen">
-            <img class="startscreen-image" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="">
-            <div class="button-container">
-                <button id="start-button">Start Game</button>
-                <button id="howtoplay-button" onclick="howToPlay()">How To Play</button>
-                <div id="imprint-button" onclick="showImprint()">Imprint</div>
-            </div>
-    </div>
-    
-
-    <button id="mutebutton" >
-        <span id="mute-icon">🔊</span>
-    </button>
-    
-
-
-     <div class="overlay" id="overlay">
-
-        <div class="inside-overlay">
-            <img id="you-lose-image" src="img/9_intro_outro_screens/game_over/Screenshot_2024-10-22_155850-removebg-preview.png" alt="You Lose!" style="display: none;">
-
-        <img id="you-win-image" src="img/9_intro_outro_screens/win/win_1.png" alt="You Win!" style="display: none;">
-        <button id="new-game-button" onclick="startNewGame()" style="display: none;">Start New Game</button>
-        <button id="quit-game-button" onclick="quitGame()" style="display: none;">Quit</button>
+          </div>
         </div>
 
+        <canvas id="canvas" width="720" height="480"></canvas>
+
+        <div id="startscreen" class="startscreen">
+          <img
+            class="startscreen-image"
+            src="img/9_intro_outro_screens/start/startscreen_1.png"
+            alt=""
+          />
+          <div class="button-container">
+            <button id="start-button">Start Game</button>
+            <button id="howtoplay-button" onclick="howToPlay()">
+              How To Play
+            </button>
+            <div id="imprint-button" onclick="showImprint()">Imprint</div>
+          </div>
+        </div>
+
+        <button id="mutebutton">
+          <span id="mute-icon">🔊</span>
+        </button>
+
+        <div class="overlay" id="overlay">
+          <div class="inside-overlay">
+            <img
+              id="you-lose-image"
+              src="img/9_intro_outro_screens/game_over/Screenshot_2024-10-22_155850-removebg-preview.png"
+              alt="You Lose!"
+              style="display: none"
+            />
+
+            <img
+              id="you-win-image"
+              src="img/9_intro_outro_screens/win/win_1.png"
+              alt="You Win!"
+              style="display: none"
+            />
+            <button
+              id="new-game-button"
+              onclick="startNewGame()"
+              style="display: none"
+            >
+              Start New Game
+            </button>
+            <button
+              id="quit-game-button"
+              onclick="quitGame()"
+              style="display: none"
+            >
+              Quit
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
-
-    </div>
-
-
-</div>
-
-       
-
-
-        
-
-
-
-        
-   
-    
-    
-
-   
     <div id="howtoplay-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeHowToPlay()">&times;</span>
-            <h2>How To Play</h2>
-            <div class="howtoplay-container">
-                <div class="keybindings">
-                    <p>Here are the key bindings for the game:</p>
-                    <ul>
-                        <li class="list"><img class="imageskeyboard" src="img/imgs/right.png" alt=""> Move right</li>
-                        <li class="list"><img class="imageskeyboard" src="img/imgs/pointer.png" alt=""> Move left</li>
-                        <li class="list"> <img class="imageskeyboard" src="img/imgs/space.png" alt=""> Jump</li>
-                        <li class="list"> <img class="imageskeyboard" src="img/imgs/letter-d.png" alt=""> Throw bottle</li>
-                    </ul>
-                </div>
-                <div class="game-description">
-                    <h3>About the Game</h3>
-                    <p>
-                        In "El Pollo Loco," you play as a hero battling through a world filled with dangerous chickens. Smaller chickens attack in groups, while larger ones require careful strategy to defeat. Along the way, you'll collect valuable items and face tougher enemies. The ultimate challenge is the powerful Endboss, a giant chicken with devastating attacks. Only by defeating it can you bring peace to the land.
-                    </p>
-                    
-                    
-                </div>
-            </div>
+      <div class="modal-content">
+        <span class="close-button" onclick="closeHowToPlay()">&times;</span>
+        <h2>How To Play</h2>
+        <div class="howtoplay-container">
+          <div class="keybindings">
+            <p>Here are the key bindings for the game:</p>
+            <ul>
+              <li class="list">
+                <img class="imageskeyboard" src="img/imgs/right.png" alt="" />
+                Move right
+              </li>
+              <li class="list">
+                <img class="imageskeyboard" src="img/imgs/pointer.png" alt="" />
+                Move left
+              </li>
+              <li class="list">
+                <img class="imageskeyboard" src="img/imgs/space.png" alt="" />
+                Jump
+              </li>
+              <li class="list">
+                <img
+                  class="imageskeyboard"
+                  src="img/imgs/letter-d.png"
+                  alt=""
+                />
+                Throw bottle
+              </li>
+            </ul>
+          </div>
+          <div class="game-description">
+            <h3>About the Game</h3>
+            <p>
+              In "El Pollo Loco," you play as a hero battling through a world
+              filled with dangerous chickens. Smaller chickens attack in groups,
+              while larger ones require careful strategy to defeat. Along the
+              way, you'll collect valuable items and face tougher enemies. The
+              ultimate challenge is the powerful Endboss, a giant chicken with
+              devastating attacks. Only by defeating it can you bring peace to
+              the land.
+            </p>
+          </div>
         </div>
+      </div>
     </div>
 
-   
     <div id="imprint-modal" class="modal-imprint">
-        <div class="modal-content-imprint">
-            <span class="close-button" onclick="closeImprint()">&times;</span>
-            <h3>Imprint</h3>
-            <p>Hasan Korkmaz</p>
-            <p>Max-Fischer-Straße.20</p>
-            <p>86399 Bobingen</p>
-            <h4>Contact:</h4>
-            <p>hasan_k2023@outlook.com</p>
-        </div>
+      <div class="modal-content-imprint">
+        <span class="close-button" onclick="closeImprint()">&times;</span>
+        <h3>Imprint</h3>
+        <p>Hasan Korkmaz</p>
+        <p>Max-Fischer-Straße.20</p>
+        <p>86399 Bobingen</p>
+        <h4>Contact:</h4>
+        <p>hasan_k2023@outlook.com</p>
+      </div>
     </div>
-
-   
-    
 
     <script src="js/script.js"></script>
-
-
-</body>
+  </body>
 </html>
-
-
-

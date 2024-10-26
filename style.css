@@ -1,575 +1,504 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  
-    margin: 0;
-    font-family: "Space Grotesk", sans-serif;
-    height: 100vh;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    background-image: url('img/imgs/background.webp');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover; /* Nimmt die volle Höhe des Bildschirms ein */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-image: url("img/imgs/background.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover; /* Nimmt die volle Höhe des Bildschirms ein */
 }
-
-
-
-
-
 
 h1 {
-    color: rgb(255, 255, 255);
-    font-weight: 700;
-    font-size: 50px;
-    font-family: "Kablammo", system-ui;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 50px;
+  font-family: "Kablammo", system-ui;
 }
-
 
 .game-container {
-    position: relative;
-    width: 100%;  /* Nimmt die volle Breite des Bildschirms ein */
-    height: 100vh;
-    display: flex;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  
+  position: relative;
+  width: 100%; /* Nimmt die volle Breite des Bildschirms ein */
+  height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-
 
 canvas {
-    height: 100vh;
-    width: 100%;
-    max-width: 720px;
-    height: 480px;
-    display: none;
-  
-   position: relative;
-   
-   
+  height: 100vh;
+  width: 100%;
+  max-width: 720px;
+  height: 480px;
+  display: none;
+
+  position: relative;
 }
-
-
 
 .button-container {
-    position: absolute; /* Relativ zum Canvas positioniert */
-    top: 0;         /* Platziert es am unteren Rand des Canvas */
-    left: 50%;          /* Zentriert das Panel horizontal */
-    transform: translateX(-50%); /* Korrektur, um es genau in der Mitte zu platzieren */
-    display: flex;
-    justify-content: space-around;
-    z-index: 21;         /* Stelle sicher, dass es über dem Canvas liegt */
-    width: 100%;        /* Macht sicher, dass es über die ganze Breite geht */
-    max-width: 620px;   /* Beschränke die maximale Breite */
-
+  position: absolute; /* Relativ zum Canvas positioniert */
+  top: 0; /* Platziert es am unteren Rand des Canvas */
+  left: 50%; /* Zentriert das Panel horizontal */
+  transform: translateX(
+    -50%
+  ); /* Korrektur, um es genau in der Mitte zu platzieren */
+  display: flex;
+  justify-content: space-around;
+  z-index: 21; /* Stelle sicher, dass es über dem Canvas liegt */
+  width: 100%; /* Macht sicher, dass es über die ganze Breite geht */
+  max-width: 620px; /* Beschränke die maximale Breite */
 }
-
-
 
 .startscreen-image {
-    height: 480px;
-    width: 720px;
-   z-index: 2000;
+  height: 480px;
+  width: 720px;
+  z-index: 2000;
 }
 
-
 .overlay {
-    display: none;
-    position: absolute;
-    top: 0;         /* Platziert es am unteren Rand des Canvas */
-    left: 50%;   
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.9);
-    height: 485px;
-    width: 100%;
-    max-width: 750px;
-    z-index: 9999;
+  display: none;
+  position: absolute;
+  top: 0; /* Platziert es am unteren Rand des Canvas */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  height: 485px;
+  width: 100%;
+  max-width: 750px;
+  z-index: 9999;
 }
 
 .inside-overlay {
-    height: 485px;
-    width: 100%;
-    max-width: 750px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    
+  height: 485px;
+  width: 100%;
+  max-width: 750px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 #mute-icon {
-    height: 0px;
+  height: 0px;
 }
 
-
 #you-win-image {
-  
-    
-    width: 470px;
-    height: 200px;
-    
-    z-index: 9999;
+  width: 470px;
+  height: 200px;
+
+  z-index: 9999;
 }
 
 #new-game-button {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-family: "Space Grotesk", sans-serif;
-    font-weight: 700;
-    display: none;  /* Hidden by default */
-   
-   
-    padding: 15px 30px;
-    font-size: 20px;
-    background-color: #8a591d;
-    color: white;
-    border: none;
-    border: 2px solid white;
-    border-radius: 5px;
-    cursor: pointer;
-    
-    z-index: 9999;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  display: none; /* Hidden by default */
+
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: #8a591d;
+  color: white;
+  border: none;
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+
+  z-index: 9999;
 }
 
 #quit-game-button {
-    font-family: "Space Grotesk", sans-serif;
-    font-weight: 700;
-    display: none;  /* Hidden by default */
-   
-  
-    padding: 15px 30px;
-    font-size: 20px;
-    background-color: #8a591d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    border: 2px solid white;
-    cursor: pointer;
-    
-    z-index: 9999;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  display: none; /* Hidden by default */
+
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: #8a591d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  border: 2px solid white;
+  cursor: pointer;
+
+  z-index: 9999;
 }
-
-
 
 #you-lose-image {
-   
-    display: none;
-    
-    background-color: rgba(0, 0, 0, 0.1);
-    width: 570px;
-    height: 200px;
-    z-index: 999;
+  display: none;
+
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 570px;
+  height: 200px;
+  z-index: 999;
 }
-
-
 
 .containerforbuttons {
-    position: relative;
-    width: 720px;
-    height: 480px;
+  position: relative;
+  width: 720px;
+  height: 480px;
 }
-
-
-
-  
-
-
-
 
 #hud {
-    display: none;  /* Verstecke das HUD standardmäßig */
-    position: absolute;  /* Relativ zum Canvas positioniert */
-    bottom: 0;           /* Platziert es am unteren Rand des Canvas */
-    left: 50%;           /* Zentriert das Panel horizontal */
-    transform: translateX(-50%); /* Korrektur, um es genau in der Mitte zu platzieren */
-      z-index: 100;    /* Stelle sicher, dass es über dem Canvas liegt */
-    width: 100%;         /* Macht sicher, dass es über die ganze Breite geht */
-    max-width: 620px;    /* Beschränke die maximale Breite */
+  display: none; /* Verstecke das HUD standardmäßig */
+  position: absolute; /* Relativ zum Canvas positioniert */
+  bottom: 0; /* Platziert es am unteren Rand des Canvas */
+  left: 50%; /* Zentriert das Panel horizontal */
+  transform: translateX(
+    -50%
+  ); /* Korrektur, um es genau in der Mitte zu platzieren */
+  z-index: 100; /* Stelle sicher, dass es über dem Canvas liegt */
+  width: 100%; /* Macht sicher, dass es über die ganze Breite geht */
+  max-width: 620px; /* Beschränke die maximale Breite */
 }
 
-
-
-
-
 .panel {
-    width: 100%;
-    max-width: 640px;
-    display: flex;
-    justify-content: space-between;
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .pannel-wrapper {
-   
-    display: flex;
-   
-  
+  display: flex;
 }
 
-.buttons img{
-    height: 50px;
+.buttons img {
+  height: 50px;
 }
 
 .buttonsthrow {
-    width: 45px;
-    height: 45px;
-    border-radius: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 20px;
 }
 
 .buttonsthrow img {
-    width: 30px;
-    height: 35px;
-    border-radius: 20px;
+  width: 30px;
+  height: 35px;
+  border-radius: 20px;
 }
-
 
 #mutebutton {
-    display: none;
-    z-index: 1;
-    height: 50px;
-    width: 50px;
-    cursor: pointer;
-    background-color: #ae8436;
-    border: none;
-    border-radius: 5px;
-    position: absolute; /* Relativ zum Canvas positioniert */
-    top: 10px;         /* Platziert es am unteren Rand des Canvas */
-    left: 50%;          /* Zentriert das Panel horizontal */
-    transform: translateX(-50%); 
+  display: none;
+  z-index: 1;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  background-color: #ae8436;
+  border: none;
+  border-radius: 5px;
+  position: absolute; /* Relativ zum Canvas positioniert */
+  top: 10px; /* Platziert es am unteren Rand des Canvas */
+  left: 50%; /* Zentriert das Panel horizontal */
+  transform: translateX(-50%);
 }
 
+#start-button {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 20px;
+  background-color: #8a591d;
+  color: white;
+  border: 2px solid white;
+}
 
+#start-button:hover {
+  background-color: #947753;
+}
 
+#howtoplay-button {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 20px;
+  background-color: #8a591d;
+  color: white;
+  border: 2px solid white;
+}
 
+#howtoplay-button:hover {
+  background-color: #947753;
+}
 
-
-
-
-
-
-  
- 
-
-  
-  
- 
-  
-  #start-button {
-    font-family: "Space Grotesk", sans-serif;
-    font-weight: 700;
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 20px;
-    background-color: #8a591d;
-    color: white;
-    border: 2px solid white;
-  }
-
-  #start-button:hover {
-   background-color: #947753;
-  }
-
-  #howtoplay-button{
-    font-family: "Space Grotesk", sans-serif;
-    font-weight: 700;
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 20px;
-    background-color: #8a591d;
-    color: white;
-    border: 2px solid white;
-  }
-
-  #howtoplay-button:hover {
-    background-color: #947753;
-   }
-
-
-
-   /* Modal Styling */
-   .modal {
-    display: none; /* Standardmäßig ausgeblendet */
-    position: fixed; /* Stellt sicher, dass es im Sichtfenster bleibt */
-    z-index: 1000; /* Überlagert alle Inhalte */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Schwarz mit Opazität */
+/* Modal Styling */
+.modal {
+  display: none; /* Standardmäßig ausgeblendet */
+  position: fixed; /* Stellt sicher, dass es im Sichtfenster bleibt */
+  z-index: 1000; /* Überlagert alle Inhalte */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Schwarz mit Opazität */
 }
 
 /* Inhalt des Modals */
 .modal-content {
-    position: absolute;
-    top: 50%;           /* Vertikal zentrieren */
-    left: 50%;          /* Horizontal zentrieren */
-    transform: translate(-50%, -50%); /* Verschiebt es um die Hälfte seiner Breite und Höhe, um es korrekt zu zentrieren */
-    background-color: #907554;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    height: auto;       /* Höhe passt sich dem Inhalt an */
-    max-width: 600px;   /* Maximale Breite */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Leichter Schatten */
+  position: absolute;
+  top: 50%; /* Vertikal zentrieren */
+  left: 50%; /* Horizontal zentrieren */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Verschiebt es um die Hälfte seiner Breite und Höhe, um es korrekt zu zentrieren */
+  background-color: #907554;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  height: auto; /* Höhe passt sich dem Inhalt an */
+  max-width: 600px; /* Maximale Breite */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Leichter Schatten */
 }
 
-
 h2 {
-    margin-bottom: 0;
-    
+  margin-bottom: 0;
 }
 
 /* Der Schließen-Button (X) */
 .close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .howtoplay-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px; /* Abstand zwischen den beiden Spalten */
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Abstand zwischen den beiden Spalten */
 }
 
-.keybindings, .game-description {
-    flex: 1;
-   
+.keybindings,
+.game-description {
+  flex: 1;
 }
 
 /* Bilder der Keybindings */
 .imageskeyboard {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-    vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
-
 
 .close-button:hover,
 .close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-
 .imageskeyboard {
-height: 50px;
-width: 50px;
-margin-right: 20px;
-margin-bottom: 10px;
+  height: 50px;
+  width: 50px;
+  margin-right: 20px;
+  margin-bottom: 10px;
 }
 
 .list {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
-
-
-
 
 /* Impressum*/
 .imprint {
-display: flex;
-justify-content: flex-end;
-align-items: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 #imprint-button {
-    font-family: "Space Grotesk", sans-serif;
-    font-weight: 700;
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 20px;
-    background-color: #8a591d;
-    color: white;
-    border: 2px solid white;
-    height: 30px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 20px;
+  background-color: #8a591d;
+  color: white;
+  border: 2px solid white;
+  height: 30px;
 }
 
 #imprint-button:hover {
-    background-color: #947753;
+  background-color: #947753;
 }
 
 /* Modal Styling (wie bei How to Play) */
 .modal-imprint {
-    display: none; /* Standardmäßig ausgeblendet */
-    position: fixed; /* Stellt sicher, dass es im Sichtfenster bleibt */
-    z-index: 1000; /* Überlagert alle Inhalte */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Schwarz mit Opazität */
+  display: none; /* Standardmäßig ausgeblendet */
+  position: fixed; /* Stellt sicher, dass es im Sichtfenster bleibt */
+  z-index: 1000; /* Überlagert alle Inhalte */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Schwarz mit Opazität */
 }
 
 .modal-content-imprint {
-    position: absolute;
-    top: 50%;           /* Vertikal zentrieren */
-    left: 50%;          /* Horizontal zentrieren */
-    transform: translate(-50%, -50%); /* Verschiebt es um die Hälfte seiner Breite und Höhe, um es korrekt zu zentrieren */
-    background-color: #907554;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    height: auto;   
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;    /* Höhe passt sich dem Inhalt an */
-    max-width: 400px;   /* Maximale Breite */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    overflow-x: hidden; /* Leichter Schatten */
+  position: absolute;
+  top: 50%; /* Vertikal zentrieren */
+  left: 50%; /* Horizontal zentrieren */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Verschiebt es um die Hälfte seiner Breite und Höhe, um es korrekt zu zentrieren */
+  background-color: #907554;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; /* Höhe passt sich dem Inhalt an */
+  max-width: 400px; /* Maximale Breite */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow-x: hidden; /* Leichter Schatten */
 }
 
 /* Der Schließen-Button (X) */
 .close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    margin-left: 400px;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 400px;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-
-
 #rotate-message {
-    display: none;
-    position: fixed;
-    height: 300px;
-    width: 300px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    font-size: 24px;
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 9999;
-    text-align: center; /* Horizontale Zentrierung */
-    display: flex; /* Flexbox für zentriertes Layout */
-    justify-content: center; /* Horizontale Zentrierung */
-    align-items: center; /* Vertikale Zentrierung */
-    animation: rotate-animation 1.5s infinite ease-in-out;
+  display: none;
+  position: fixed;
+  height: 300px;
+  width: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 24px;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 9999;
+  text-align: center; /* Horizontale Zentrierung */
+  display: flex; /* Flexbox für zentriertes Layout */
+  justify-content: center; /* Horizontale Zentrierung */
+  align-items: center; /* Vertikale Zentrierung */
+  animation: rotate-animation 1.5s infinite ease-in-out;
 }
 
 /* Keyframes für die Rotation */
 @keyframes rotate-animation {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    25% {
-        transform: translate(-50%, -50%) rotate(-5deg);
-    }
-    75% {
-        transform: translate(-50%, -50%) rotate(5deg);
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) rotate(-5deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) rotate(5deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
 }
 
+@media only screen and (max-width: 720px) {
+  canvas {
+    width: 100%;
+  }
 
+  .startscreen-image {
+    width: 100%;
+  }
 
+  .button-container {
+    width: 100%;
+  }
 
+  .containerforbuttons {
+    width: 100%;
+  }
 
+  .overlay {
+    width: 105%;
+  }
 
+  .inside-overlay {
+    width: 100%;
+  }
 
-@media only screen and (max-width:720px) {
-    canvas {
-        width: 100%;
-    }
+  .modal-content {
+    width: 100%;
+  }
 
-    .startscreen-image {
-        width: 100%;
-    }
-
-
-    .button-container {
-        width: 100%;
-    }
-
-    .containerforbuttons {
-        width: 100%;
-    }
-
-    .overlay {
-        width: 105%;
-    }
-
-    .inside-overlay {
-        width: 100%;
-    }
-   
-    .modal-content {
-        width: 100%;
-    }
-
-    .modal-content-imprint {
-        width: 100%;
-    }
-
-
+  .modal-content-imprint {
+    width: 100%;
+  }
 }
 
-@media only screen and (max-height:480px) {
-    canvas {
-        height: 100vh;
-    }
+@media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
 
-    .startscreen-image {
-        height: 100vh;
-    }
+  .startscreen-image {
+    height: 100vh;
+  }
 
-    .containerforbuttons {
-        height: 100vh;
-    }
-    
-    .overlay {
-        height: 100vh;
-    }
+  .containerforbuttons {
+    height: 100vh;
+  }
 
-    .inside-overlay {
-        height: 100vh;
-    }
+  .overlay {
+    height: 100vh;
+  }
 
-    .modal-content {
-        height: 80vh;
-        overflow-y: scroll;
-    }
+  .inside-overlay {
+    height: 100vh;
+  }
 
-    .modal-content-imprint {
-        height: 80vh;
-        overflow-y: scroll;
-    }
+  .modal-content {
+    height: 80vh;
+    overflow-y: scroll;
+  }
+
+  .modal-content-imprint {
+    height: 80vh;
+    overflow-y: scroll;
+  }
 }
-
-
 
 @media (max-height: 681px) {
-    h1 {
-        display: none;
-    }
+  h1 {
+    display: none;
+  }
 }
