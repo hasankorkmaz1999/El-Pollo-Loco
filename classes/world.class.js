@@ -76,11 +76,9 @@ class World {
     this.chickensounds.volume = 0;
     this.deadchicken_sound.volume = 0;
     this.win_sound.volume = 0;
-
     if (this.character.hurt_sound) {
       this.character.hurt_sound.volume = 0;
     }
-
     this.level.enemies.forEach((enemy) => {
       if (enemy.hurt_sound) {
         enemy.hurt_sound.volume = 0;
@@ -94,11 +92,9 @@ class World {
     this.chickensounds.volume = 0.1;
     this.deadchicken_sound.volume = 0.3;
     this.win_sound.volume = 0.5;
-
     if (this.character.hurt_sound) {
       this.character.hurt_sound.volume = 0.3;
     }
-
     this.level.enemies.forEach((enemy) => {
       if (enemy.hurt_sound) {
         enemy.hurt_sound.volume = 0.3;
@@ -160,14 +156,12 @@ class World {
         );
         this.throwableObjects.push(bottle);
         this.character.collectedBottles--;
-
         let totalBottles = 10;
         let percentage = (this.character.collectedBottles / totalBottles) * 100;
         this.bottlesBar.setBottlesCollected(
           this.character.collectedBottles,
           totalBottles
         );
-
         ThrowableObject.startCooldown();
       }
     }
@@ -187,12 +181,10 @@ class World {
     this.level.bottles = this.level.bottles.filter((bottle) => {
       if (this.character.isColliding(bottle)) {
         this.character.collect();
-
         this.bottlesBar.setBottlesCollected(
           this.character.collectedBottles,
           totalBottles
         );
-
         return false;
       }
       return true;
@@ -204,10 +196,8 @@ class World {
     this.level.coins = this.level.coins.filter((coin) => {
       if (this.character.isColliding(coin)) {
         this.character.collectCoin();
-
         let percentage = (this.character.collectedCoins / totalCoins) * 100;
         this.coinsBar.setPercentage(percentage);
-
         return false;
       }
       return true;
@@ -226,7 +216,6 @@ class World {
   draw() {
     if (!this.isGameOver) {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
       this.ctx.save();
       this.ctx.translate(this.camera_x, 0);
       this.addObjectsToMap(this.level.backgroundObjects);
@@ -244,7 +233,6 @@ class World {
       this.addToMap(this.endboss);
       this.addObjectsToMap(this.throwableObjects);
       this.ctx.restore();
-
       this.checkIfAllChickensDead();
     }
 
@@ -262,7 +250,6 @@ class World {
         document.getElementById("you-win-image").style.display = "block";
         document.getElementById("you-lose-image").style.display = "none";
       }
-
       document.getElementById("overlay").style.display = "block";
       document.getElementById("new-game-button").style.display = "block";
       document.getElementById("quit-game-button").style.display = "block";
@@ -286,11 +273,7 @@ class World {
     if (mo.otherDirection) {
       this.flipImage(mo);
     }
-
     mo.draw(this.ctx);
-
-    mo.drawFrame(this.ctx);
-
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }

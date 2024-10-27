@@ -46,15 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
           hud.style.display = "block";
         } else {
           hud.style.display = "none";
-        }
-      }
-    } else {
+        }} } else {
       startNewGame();
       if (isTouchDevice()) {
         hud.style.display = "block";
-      }
-    }
-  }
+      }}}
 });
 
 function howToPlay() {
@@ -90,17 +86,13 @@ window.onclick = function (event) {
 
 function checkScreenOrientation() {
   const rotateMessage = document.getElementById("rotate-message");
-
   const gamecontainer = document.getElementById("gamecontainer");
-
   if (window.innerHeight > window.innerWidth) {
     rotateMessage.style.display = "flex";
-
     gamecontainer.style.display = "none";
   } else {
     gameStarted = true;
     rotateMessage.style.display = "none";
-
     gamecontainer.style.display = "flex";
   }
 }

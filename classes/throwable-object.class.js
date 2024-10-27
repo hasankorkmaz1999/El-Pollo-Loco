@@ -99,14 +99,12 @@ class ThrowableObject extends MovableObject {
         width: this.world.endboss.width * 0.7,
         height: this.world.endboss.height * 0.9,
       };
-
       const bottleHitbox = {
         x: this.x,
         y: this.y,
         width: this.width,
         height: this.height,
       };
-
       if (
         bottleHitbox.x + bottleHitbox.width > endbossHitbox.x &&
         bottleHitbox.x < endbossHitbox.x + endbossHitbox.width &&
@@ -136,16 +134,13 @@ class ThrowableObject extends MovableObject {
     let index = this.world.throwableObjects.indexOf(this);
     if (index > -1) {
       this.world.throwableObjects.splice(index, 1);
-    }
-  }
-
+    }}
   static startCooldown() {
     ThrowableObject.cooldownActive = true;
     setTimeout(() => {
       ThrowableObject.cooldownActive = false;
     }, 700);
   }
-
   static canThrow() {
     return !ThrowableObject.cooldownActive;
   }

@@ -117,7 +117,6 @@ class MovableObject extends DrawableObject {
 
   collect() {
     this.collectedBottles += 1;
-
     if (this.collectedBottles > 100) {
       this.collectedBottles = 100;
     }
@@ -126,7 +125,6 @@ class MovableObject extends DrawableObject {
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
-
     return timepassed < 1.5 && this.energy > 0;
   }
 

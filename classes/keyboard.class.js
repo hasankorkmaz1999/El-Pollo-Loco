@@ -7,7 +7,7 @@ class Keyboard {
     D = false;
 }
 
-// Links-Taste
+
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnLeft').addEventListener('mousedown', () => { keyboard.LEFT = true; });
     document.getElementById('btnLeft').addEventListener('mouseup', () => { keyboard.LEFT = false; });

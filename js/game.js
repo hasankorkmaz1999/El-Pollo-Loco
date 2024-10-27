@@ -36,7 +36,6 @@ function startNewGame() {
   } else {
     document.getElementById("mutebutton").textContent = "🔊";
   }
-
   document.getElementById("mutebutton").style.display = "block";
 }
 
@@ -44,22 +43,18 @@ function quitGame() {
   document.getElementById("you-win-image").style.display = "none";
   document.getElementById("you-lose-image").style.display = "none";
   document.getElementById("overlay").style.display = "none";
-
   if (document.getElementById("quit-game-button")) {
     document.getElementById("quit-game-button").style.display = "none";
   }
-
   if (document.getElementById("canvas")) {
     document.getElementById("canvas").style.display = "none";
   }
-
   if (document.getElementById("startscreen")) {
     document.getElementById("startscreen").style.display = "block";
   }
   if (document.getElementById("mutebutton")) {
     document.getElementById("mutebutton").style.display = "none";
   }
-
   if (document.getElementById("hud")) {
     document.getElementById("hud").style.display = "none";
   }

@@ -142,7 +142,6 @@ class Endboss extends MovableObject {
       }
     }, this.attackCooldown);
   }
-
   playAttackAnimation() {
     this.playAnimation(this.IMAGES_ATTACK);
   }
@@ -155,7 +154,6 @@ class Endboss extends MovableObject {
       setTimeout(() => {
         this.isHurt = false;
       }, 500);
-
       if (this.energy <= 0) {
         this.die();
       }
