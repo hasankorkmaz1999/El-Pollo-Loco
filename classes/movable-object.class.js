@@ -53,7 +53,7 @@ class MovableObject extends DrawableObject {
    */
   constructor() {
     super();
-    this.hurt_sound.volume = 0.3;
+    this.hurt_sound.volume = 0.2;
   }
 
   /**
@@ -169,11 +169,14 @@ class MovableObject extends DrawableObject {
   hit() {
     this.energy -= 2;
     this.hurt_sound.play();
+   
+    
     if (this.energy < 0) {
       this.energy = 0;
     } else {
       this.lastHit = new Date().getTime();
     }
+    
   }
 
   /**
@@ -191,6 +194,7 @@ class MovableObject extends DrawableObject {
    * @returns {boolean} True if the object is hurt.
    */
   isHurt() {
+   
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
     return timepassed < 1.5 && this.energy > 0;

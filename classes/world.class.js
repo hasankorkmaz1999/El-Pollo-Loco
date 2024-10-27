@@ -291,6 +291,7 @@ class World {
       if (this.character.isDead()) {
         this.gameover_sound.play();
         this.background_sound.pause();
+        this.character.hurt_sound.volume = 0;
         this.chickensounds.pause();
         document.getElementById("you-lose-image").style.display = "block";
         document.getElementById("you-win-image").style.display = "none";

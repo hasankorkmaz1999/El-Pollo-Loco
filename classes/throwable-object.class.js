@@ -45,7 +45,7 @@ class ThrowableObject extends MovableObject {
       this.adjustDirection();
       this.throw();
       this.rotation();
-      this.splash_sound.volume = 0.9;
+      this.splash_sound.volume = 0.6;
       if (this.world.isMuted) {
         this.splash_sound.volume = 0;
       }
