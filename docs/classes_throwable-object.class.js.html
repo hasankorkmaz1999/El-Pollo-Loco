@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: classes/throwable-object.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: classes/throwable-object.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * The ThrowableObject class represents objects that can be thrown by the character,
+ * such as bottles, with collision detection, splash effects, and cooldown control.
+ * This class extends MovableObject.
+ */
+class ThrowableObject extends MovableObject {
+    IMAGES_THROWN = [
+      "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
+      "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
+      "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
+      "img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
+    ];
+  
+    IMAGES_SPLASH = [
+      "img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
+      "img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",
+      "img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png",
+      "img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png",
+      "img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
+      "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
+    ];
+  
+    splashPlayed = false;
+    world;
+    throwDirection = 10;
+    splash_sound = new Audio("audio/splash.wav");
+  
+    static cooldownActive = false;
+  
+    /**
+     * Constructs a new instance of the ThrowableObject class.
+     * @param {number} x - The initial x-coordinate of the object.
+     * @param {number} y - The initial y-coordinate of the object.
+     * @param {World} world - The world instance to which this object belongs.
+     */
+    constructor(x, y, world) {
+      super().loadImage("img/6_salsa_bottle/salsa_bottle.png");
+      this.loadImages(this.IMAGES_THROWN);
+      this.loadImages(this.IMAGES_SPLASH);
+      this.x = x;
+      this.y = y;
+      this.height = 70;
+      this.width = 50;
+      this.world = world;
+      this.adjustDirection();
+      this.throw();
+      this.rotation();
+      this.splash_sound.volume = 0.9;
+      if (this.world.isMuted) {
+        this.splash_sound.volume = 0;
+      }
+    }
+  
+    /**
+     * Toggles the mute state for the splash sound.
+     * @param {boolean} isMuted - If true, mutes the splash sound; otherwise, unmutes it.
+     */
+    toggleMute(isMuted) {
+      this.splash_sound.volume = isMuted ? 0 : 0.9;
+    }
+  
+    /**
+     * Adjusts the direction of the throw based on the character's facing direction.
+     */
+    adjustDirection() {
+      if (this.world.character.otherDirection) {
+        this.throwDirection = -10;
+      } else {
+        this.throwDirection = 10;
+      }
+    }
+  
+    /**
+     * Initiates the throw by applying speed and gravity and checks for collisions.
+     */
+    throw() {
+      this.speedY = 30;
+      this.applyGravity();
+      this.throwInterval = setInterval(() => {
+        this.x += this.throwDirection;
+        this.checkGroundCollision();
+        this.checkChickenCollision();
+        this.checkEndbossCollision();
+      }, 25);
+    }
+  
+    /**
+     * Rotates the throwable object by cycling through rotation images.
+     */
+    rotation() {
+      this.rotationInterval = setInterval(() => {
+        this.playAnimation(this.IMAGES_THROWN);
+      }, 80);
+    }
+  
+    /**
+     * Checks if the throwable object hits the ground and plays the splash animation if true.
+     */
+    checkGroundCollision() {
+      if (this.y >= 350 &amp;&amp; !this.splashPlayed) {
+        this.playSplashAnimation();
+      }
+    }
+  
+    /**
+     * Checks if the throwable object collides with chickens and "kills" them if true.
+     */
+    checkChickenCollision() {
+      this.world.level.enemies.forEach((enemy) => {
+        if (
+          !(enemy instanceof Endboss) &amp;&amp;
+          this.isColliding(enemy) &amp;&amp;
+          !this.splashPlayed
+        ) {
+          this.playSplashAnimation();
+          if (typeof enemy.die === "function") {
+            enemy.die();
+          }
+        }
+      });
+    }
+  
+    /**
+     * Checks if the throwable object collides with the endboss and damages it if true.
+     */
+    checkEndbossCollision() {
+      if (this.world.endboss) {
+        const endbossHitbox = {
+          x: this.world.endboss.x + this.world.endboss.width * 0.15,
+          y: this.world.endboss.y + this.world.endboss.height * 0.1,
+          width: this.world.endboss.width * 0.7,
+          height: this.world.endboss.height * 0.9,
+        };
+        const bottleHitbox = {
+          x: this.x,
+          y: this.y,
+          width: this.width,
+          height: this.height,
+        };
+        if (
+          bottleHitbox.x + bottleHitbox.width > endbossHitbox.x &amp;&amp;
+          bottleHitbox.x &lt; endbossHitbox.x + endbossHitbox.width &amp;&amp;
+          bottleHitbox.y + bottleHitbox.height > endbossHitbox.y &amp;&amp;
+          bottleHitbox.y &lt; endbossHitbox.y + endbossHitbox.height
+        ) {
+          this.playSplashAnimation();
+          this.world.endboss.hitEndboss();
+        }
+      }
+    }
+  
+    /**
+     * Plays the splash animation and sound, removes intervals, and deletes the object after animation.
+     */
+    playSplashAnimation() {
+      if (!this.splashPlayed) {
+        this.splashPlayed = true;
+        this.splash_sound.play();
+        clearInterval(this.throwInterval);
+        clearInterval(this.rotationInterval);
+        this.playAnimation(this.IMAGES_SPLASH);
+        setTimeout(() => {
+          this.remove();
+        }, 600);
+      }
+    }
+  
+    /**
+     * Removes the throwable object from the world.
+     */
+    remove() {
+      let index = this.world.throwableObjects.indexOf(this);
+      if (index > -1) {
+        this.world.throwableObjects.splice(index, 1);
+      }
+    }
+  
+    /**
+     * Starts a cooldown period during which the object cannot be thrown.
+     */
+    static startCooldown() {
+      ThrowableObject.cooldownActive = true;
+      setTimeout(() => {
+        ThrowableObject.cooldownActive = false;
+      }, 700);
+    }
+  
+    /**
+     * Checks if a throwable object can be thrown based on cooldown status.
+     * @returns {boolean} True if the object can be thrown, false otherwise.
+     */
+    static canThrow() {
+      return !ThrowableObject.cooldownActive;
+    }
+  }
+  </code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottles.html">Bottles</a></li><li><a href="BottlesBar.html">BottlesBar</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="CoinBar.html">CoinBar</a></li><li><a href="Coins.html">Coins</a></li><li><a href="DrawableObject.html">DrawableObject</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="EndbossStatusbar.html">EndbossStatusbar</a></li><li><a href="HealthBar.html">HealthBar</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObject.html">ThrowableObject</a></li><li><a href="World.html">World</a></li><li><a href="smallChicken.html">smallChicken</a></li></ul><h3>Global</h3><ul><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#checkScreenOrientation">checkScreenOrientation</a></li><li><a href="global.html#closeHowToPlay">closeHowToPlay</a></li><li><a href="global.html#closeImprint">closeImprint</a></li><li><a href="global.html#createLevel">createLevel</a></li><li><a href="global.html#howToPlay">howToPlay</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#quitGame">quitGame</a></li><li><a href="global.html#showImprint">showImprint</a></li><li><a href="global.html#startNewGame">startNewGame</a></li><li><a href="global.html#toggleMute">toggleMute</a></li><li><a href="global.html#world">world</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Oct 27 2024 12:09:42 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

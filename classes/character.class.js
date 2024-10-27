@@ -1,11 +1,28 @@
+/**
+ * Represents the main character in the game.
+ * Handles character movement, animations, and interactions with the world.
+ * Inherits from MovableObject.
+ */
 class Character extends MovableObject {
+  /** @type {number} Height of the character. */
   height = 200;
+
+  /** @type {number} Initial x-coordinate position of the character. */
   x = 120;
+
+  /** @type {number} Initial y-coordinate position of the character. */
   y = 215;
+
+  /** @type {number} Width of the character. */
   width = 100;
+
+  /** @type {number} Speed of the character. */
   speed = 10;
+
+  /** @type {number} Energy level of the character, representing health points. */
   energy = 100;
 
+  /** @type {string[]} Paths to the walking animation images. */
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
@@ -15,6 +32,7 @@ class Character extends MovableObject {
     "img/2_character_pepe/2_walk/W-26.png",
   ];
 
+  /** @type {string[]} Paths to the jumping animation images. */
   IMAGES_JUMPING = [
     "img/2_character_pepe/3_jump/J-31.png",
     "img/2_character_pepe/3_jump/J-32.png",
@@ -27,6 +45,7 @@ class Character extends MovableObject {
     "img/2_character_pepe/3_jump/J-39.png",
   ];
 
+  /** @type {string[]} Paths to the death animation images. */
   IMAGES_DEAD = [
     "img/2_character_pepe/5_dead/D-51.png",
     "img/2_character_pepe/5_dead/D-52.png",
@@ -37,12 +56,14 @@ class Character extends MovableObject {
     "img/2_character_pepe/5_dead/D-57.png",
   ];
 
+  /** @type {string[]} Paths to the hurt animation images. */
   IMAGES_HURT = [
     "img/2_character_pepe/4_hurt/H-41.png",
     "img/2_character_pepe/4_hurt/H-42.png",
     "img/2_character_pepe/4_hurt/H-43.png",
   ];
 
+  /** @type {string[]} Paths to the idle animation images. */
   IMAGES_IDLE = [
     "img/2_character_pepe/1_idle/idle/I-1.png",
     "img/2_character_pepe/1_idle/idle/I-2.png",
@@ -56,6 +77,7 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/idle/I-10.png",
   ];
 
+  /** @type {string[]} Paths to the sleeping animation images for long idle state. */
   IMAGES_SLEEP = [
     "img/2_character_pepe/1_idle/long_idle/I-11.png",
     "img/2_character_pepe/1_idle/long_idle/I-12.png",
@@ -69,11 +91,14 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
+  /** @type {World} Reference to the game world. */
   world;
 
+  /**
+   * Initializes a new character with idle and movement animations, gravity, and movement behaviors.
+   */
   constructor() {
     super().loadImage("img/2_character_pepe/2_walk/W-21.png");
-
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
@@ -84,22 +109,23 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Manages character movements based on keyboard input, sets the camera position,
+   * and triggers appropriate animations.
+   */
   animate() {
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
         this.otherDirection = false;
       }
-
       if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.otherDirection = true;
       }
-
       if (this.world.keyboard.SPACE && !this.isAboveground()) {
         this.jump();
       }
-
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
@@ -119,10 +145,19 @@ class Character extends MovableObject {
     }, 150);
   }
 
+  /**
+   * Checks if the character has zero energy, marking it as dead.
+   * @returns {boolean} True if the character is dead, false otherwise.
+   */
   isDead() {
     return this.energy == 0;
   }
 
+  /**
+   * Determines if the character is in a position to jump on a given chicken.
+   * @param {Chicken} chicken - The chicken object to check collision with.
+   * @returns {boolean} True if the character is jumping on the chicken, false otherwise.
+   */
   isJumpingOn(chicken) {
     let horizontalOffset = this.width * 0.4;
     let verticalOffset = chicken.height * 0.2;

@@ -1,3 +1,6 @@
+/**
+ * Represents the game world, containing the main character, levels, enemies, sounds, and game logic.
+ */
 class World {
   character = new Character();
   level = level1;
@@ -22,6 +25,12 @@ class World {
   win_sound = new Audio("audio/win.wav");
   splash_sound = new Audio("audio/splash.wav");
 
+  /**
+   * Initializes a new instance of the World class.
+   * @param {HTMLCanvasElement} canvas - The canvas element where the game is drawn.
+   * @param {Keyboard} keyboard - The keyboard input handler.
+   * @param {Level} level - The current game level.
+   */
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -52,12 +61,18 @@ class World {
     this.win_sound.volume = 0.5;
   }
 
+  /**
+   * Sets up the world by linking character and starting background music.
+   */
   setWorld() {
     this.character.world = this;
     this.background_sound.play();
     this.chickensounds.play();
   }
 
+  /**
+   * Toggles the mute state of all game sounds.
+   */
   toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.isMuted) {
@@ -70,6 +85,9 @@ class World {
     this.throwableObjects.forEach((obj) => obj.toggleMute(this.isMuted));
   }
 
+  /**
+   * Mutes all game sounds.
+   */
   muteAllSounds() {
     this.background_sound.volume = 0;
     this.gameover_sound.volume = 0;
@@ -86,6 +104,9 @@ class World {
     });
   }
 
+  /**
+   * Unmutes all game sounds.
+   */
   unmuteAllSounds() {
     this.background_sound.volume = 0.2;
     this.gameover_sound.volume = 0.5;
@@ -102,6 +123,9 @@ class World {
     });
   }
 
+  /**
+   * Starts the main game loop for handling collisions and interactions.
+   */
   run() {
     this.moveInterval = setInterval(() => {
       if (!this.isGameOver) {
@@ -112,6 +136,9 @@ class World {
     }, 200);
   }
 
+  /**
+   * Starts a secondary game loop for handling animations and additional interactions.
+   */
   run2() {
     this.animationInterval = setInterval(() => {
       if (!this.isGameOver) {
@@ -122,6 +149,9 @@ class World {
     }, 50);
   }
 
+  /**
+   * Checks if the character collides with the endboss.
+   */
   checkEndbossCollision() {
     let endbossHitbox = this.endboss.getHitbox();
 
@@ -137,6 +167,9 @@ class World {
     }
   }
 
+  /**
+   * Checks for collisions between the character and chickens while jumping.
+   */
   checkCollisionsWithChickenOnJump() {
     this.level.enemies.forEach((chicken) => {
       if (this.character.isJumpingOn(chicken)) {
@@ -146,6 +179,9 @@ class World {
     });
   }
 
+  /**
+   * Checks if the character has throwable objects and handles the throwing.
+   */
   checkthrowableObjects() {
     if (this.keyboard.D && this.character.collectedBottles > 0) {
       if (ThrowableObject.canThrow()) {
@@ -156,7 +192,7 @@ class World {
         );
         this.throwableObjects.push(bottle);
         this.character.collectedBottles--;
-        let totalBottles = 10;
+        let totalBottles = 12;
         let percentage = (this.character.collectedBottles / totalBottles) * 100;
         this.bottlesBar.setBottlesCollected(
           this.character.collectedBottles,
@@ -167,6 +203,9 @@ class World {
     }
   }
 
+  /**
+   * Checks collisions between the character and enemies.
+   */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (!enemy.isDead() && this.character.isColliding(enemy)) {
@@ -176,8 +215,11 @@ class World {
     });
   }
 
+  /**
+   * Checks if the character collides with bottles and collects them.
+   */
   checkCollisionsWithBottles() {
-    let totalBottles = 10;
+    let totalBottles = 12;
     this.level.bottles = this.level.bottles.filter((bottle) => {
       if (this.character.isColliding(bottle)) {
         this.character.collect();
@@ -191,6 +233,9 @@ class World {
     });
   }
 
+  /**
+   * Checks if the character collides with coins and collects them.
+   */
   checkCollisionsWithCoins() {
     let totalCoins = 10;
     this.level.coins = this.level.coins.filter((coin) => {
@@ -204,6 +249,9 @@ class World {
     });
   }
 
+  /**
+   * Pauses the chicken sounds if all chickens are dead.
+   */
   checkIfAllChickensDead() {
     let livingChickens = this.level.enemies.filter(
       (enemy) => enemy instanceof Chicken && !enemy.isDead()
@@ -213,6 +261,9 @@ class World {
     }
   }
 
+  /**
+   * Main draw loop that renders all game elements to the canvas.
+   */
   draw() {
     if (!this.isGameOver) {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -263,12 +314,20 @@ class World {
     }
   }
 
+  /**
+   * Adds an array of objects to the canvas map.
+   * @param {Array} objects - Array of objects to add to the map.
+   */
   addObjectsToMap(objects) {
     objects.forEach((object) => {
       this.addToMap(object);
     });
   }
 
+  /**
+   * Adds a single object to the map, with optional flipping for direction.
+   * @param {MovableObject} mo - The object to add to the map.
+   */
   addToMap(mo) {
     if (mo.otherDirection) {
       this.flipImage(mo);
@@ -279,6 +338,10 @@ class World {
     }
   }
 
+  /**
+   * Flips an object's image for directional rendering.
+   * @param {MovableObject} mo - The object to flip.
+   */
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -286,6 +349,10 @@ class World {
     mo.x = mo.x * -1;
   }
 
+  /**
+   * Restores an object's original orientation after flipping.
+   * @param {MovableObject} mo - The object to restore.
+   */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();

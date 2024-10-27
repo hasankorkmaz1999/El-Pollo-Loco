@@ -1,13 +1,33 @@
+/**
+ * The Keyboard class represents the state of keyboard inputs in the game.
+ * It tracks the state (pressed or not) of various keys used for game controls.
+ */
 class Keyboard {
+    /** @type {boolean} Indicates if the LEFT arrow key is pressed */
     LEFT = false;
+
+    /** @type {boolean} Indicates if the RIGHT arrow key is pressed */
     RIGHT = false;
+
+    /** @type {boolean} Indicates if the UP arrow key is pressed */
     UP = false;
+
+    /** @type {boolean} Indicates if the DOWN arrow key is pressed */
     DOWN = false;
+
+    /** @type {boolean} Indicates if the SPACE key (jump) is pressed */
     SPACE = false;
+
+    /** @type {boolean} Indicates if the D key (throw) is pressed */
     D = false;
 }
 
 
+/**
+ * Adds event listeners to handle mouse and touch events for in-game controls.
+ * Sets corresponding properties in the Keyboard class based on user interactions
+ * with buttons for movement and actions.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnLeft').addEventListener('mousedown', () => { keyboard.LEFT = true; });
     document.getElementById('btnLeft').addEventListener('mouseup', () => { keyboard.LEFT = false; });
