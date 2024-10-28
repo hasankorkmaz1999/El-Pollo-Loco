@@ -35,55 +35,106 @@ function init() {
 }
 
 /**
- * Starts a new game, resetting relevant game states, UI elements, and muting.
+ * Starts a new game, resetting relevant game states, UI elements, and mute status.
  */
 function startNewGame() {
-  document.getElementById("you-win-image").style.display = "none";
-  document.getElementById("you-lose-image").style.display = "none";
-  document.getElementById("overlay").style.display = "none";
-  document.getElementById("new-game-button").style.display = "none";
-
-  world.isGameOver = false;
-  keyboard = new Keyboard();
-
-  const newLevel = createLevel();
-  const isCurrentlyMuted = world.isMuted;
-
-  world = new World(canvas, keyboard, newLevel);
-
-  world.isMuted = isCurrentlyMuted;
-  if (world.isMuted) {
-    world.muteAllSounds();
-    document.getElementById("mutebutton").textContent = "🔇";
-  } else {
-    document.getElementById("mutebutton").textContent = "🔊";
+    hideGameOverScreens();
+    resetGameState();
+    initializeNewWorld();
+    updateMuteButton();
   }
-  document.getElementById("mutebutton").style.display = "block";
-}
-
+  
+  /**
+   * Hides game-over screens and overlay elements in preparation for a new game.
+   */
+  function hideGameOverScreens() {
+    document.getElementById("you-win-image").style.display = "none";
+    document.getElementById("you-lose-image").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("new-game-button").style.display = "none";
+  }
+  
+  /**
+   * Resets the game state, including setting `isGameOver` to false and reinitializing the keyboard controls.
+   */
+  function resetGameState() {
+    world.isGameOver = false;
+    keyboard = new Keyboard();
+  }
+  
+  /**
+   * Initializes a new level and world, preserving the current mute status.
+   */
+  function initializeNewWorld() {
+    const newLevel = createLevel();
+    const isCurrentlyMuted = world.isMuted;
+    world = new World(canvas, keyboard, newLevel);
+    world.isMuted = isCurrentlyMuted;
+    if (world.isMuted) {
+      world.muteAllSounds();
+    }
+  }
+  
+  /**
+   * Updates the mute button display based on the current mute status of the world.
+   */
+  function updateMuteButton() {
+    document.getElementById("mutebutton").textContent = world.isMuted ? "🔇" : "🔊";
+    document.getElementById("mutebutton").style.display = "block";
+  }
+  
 /**
  * Exits the current game and returns to the start screen, hiding game UI elements.
  */
+/**
+ * Quits the game, hides game elements, and returns to the start screen.
+ */
 function quitGame() {
-  document.getElementById("you-win-image").style.display = "none";
-  document.getElementById("you-lose-image").style.display = "none";
-  document.getElementById("overlay").style.display = "none";
-  if (document.getElementById("quit-game-button")) {
-    document.getElementById("quit-game-button").style.display = "none";
+    hideGameOverScreens();
+    hideGameUIElements();
+    showStartScreen();
   }
-  if (document.getElementById("canvas")) {
-    document.getElementById("canvas").style.display = "none";
+  
+  /**
+   * Hides the game-over and overlay images, if they are displayed.
+   */
+  function hideGameOverScreens() {
+    document.getElementById("you-win-image").style.display = "none";
+    document.getElementById("you-lose-image").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
   }
-  if (document.getElementById("startscreen")) {
-    document.getElementById("startscreen").style.display = "block";
+  
+  /**
+   * Hides various UI elements related to the game, such as the canvas, quit button, mute button, and HUD.
+   */
+  function hideGameUIElements() {
+    hideElementById("quit-game-button");
+    hideElementById("canvas");
+    hideElementById("mutebutton");
+    hideElementById("hud");
   }
-  if (document.getElementById("mutebutton")) {
-    document.getElementById("mutebutton").style.display = "none";
+  
+  /**
+   * Shows the start screen element, allowing the player to start a new game.
+   */
+  function showStartScreen() {
+    const startScreen = document.getElementById("startscreen");
+    if (startScreen) {
+      startScreen.style.display = "block";
+    }
   }
-  if (document.getElementById("hud")) {
-    document.getElementById("hud").style.display = "none";
+  
+  /**
+   * Helper function to hide an element by its ID, if it exists in the DOM.
+   * @param {string} elementId - The ID of the element to hide.
+   */
+  function hideElementById(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.style.display = "none";
+    }
   }
-}
+  
 
 /**
  * Event listener for keydown events, updates `keyboard` state on key press.

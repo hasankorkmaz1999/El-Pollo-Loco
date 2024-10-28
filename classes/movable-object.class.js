@@ -80,78 +80,121 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  /**
-   * Checks if this object is colliding with another specified object.
-   * @param {MovableObject} mo - Another movable object to check collision with.
-   * @returns {boolean} True if the objects are colliding.
-   */
-  isColliding(mo) {
-    // Handle different types of objects separately
-    // Each case adjusts hitbox based on object type
-    if (mo instanceof Coins) {
-      let hitboxOffsetX = mo.width * 0.55;
-      let hitboxOffsetY = mo.height * 0.01;
-      let hitboxWidth = mo.width * -0.1;
-      let hitboxHeight = mo.height * 0.01;
-
-      return (
-        this.x + this.width > mo.x + hitboxOffsetX &&
-        this.x < mo.x + hitboxOffsetX + hitboxWidth &&
-        this.y + this.height > mo.y + hitboxOffsetY &&
-        this.y < mo.y + hitboxOffsetY + hitboxHeight
-      );
-    }
-
-    if (mo instanceof Bottles) {
-      let hitboxOffsetX = mo.width * 0.8;
-      let hitboxOffsetY = mo.height * 0.15;
-      let hitboxWidth = mo.width * -0.7;
-      let hitboxHeight = mo.height * 0.7;
-
-      return (
-        this.x + this.width > mo.x + hitboxOffsetX &&
-        this.x < mo.x + hitboxOffsetX + hitboxWidth &&
-        this.y + this.height > mo.y + hitboxOffsetY &&
-        this.y < mo.y + hitboxOffsetY + hitboxHeight
-      );
-    }
-
-    if (mo instanceof Chicken) {
-      let hitboxOffsetX = mo.width * 0.5;
-      let hitboxOffsetY = mo.height * 0.55;
-      let hitboxWidth = mo.width * 0.1;
-      let hitboxHeight = mo.height * 0.1;
-
-      return (
-        this.x + this.width > mo.x + hitboxOffsetX &&
-        this.x < mo.x + hitboxOffsetX + hitboxWidth &&
-        this.y + this.height > mo.y + hitboxOffsetY &&
-        this.y < mo.y + hitboxOffsetY + hitboxHeight
-      );
-    }
-
-    if (this instanceof Character) {
-      let hitboxOffsetX = this.width * 0.6;
-      let hitboxOffsetY = this.height * 0.15;
-      let hitboxWidth = this.width * 0.6;
-      let hitboxHeight = this.height * 0.7;
-
-      return (
-        this.x + hitboxOffsetX + hitboxWidth > mo.x &&
-        this.x + hitboxOffsetX < mo.x + mo.width &&
-        this.y + hitboxOffsetY + hitboxHeight > mo.y &&
-        this.y + hitboxOffsetY < mo.y + mo.height
-      );
-    }
-
-    // Default collision check for other types
-    return (
-      this.x + this.width > mo.x &&
-      this.x < mo.x + mo.width &&
-      this.y + this.height > mo.y &&
-      this.y < mo.y + mo.height
-    );
+ /**
+ * Checks if this object is colliding with another specified object.
+ * @param {MovableObject} mo - Another movable object to check collision with.
+ * @returns {boolean} True if the objects are colliding.
+ */
+isColliding(mo) {
+  if (mo instanceof Coins) {
+    return this.isCollidingWithCoins(mo);
   }
+  
+  if (mo instanceof Bottles) {
+    return this.isCollidingWithBottles(mo);
+  }
+  
+  if (mo instanceof Chicken) {
+    return this.isCollidingWithChicken(mo);
+  }
+  
+  if (this instanceof Character) {
+    return this.isCharacterCollidingWith(mo);
+  }
+
+  return this.isDefaultCollision(mo);
+}
+
+/**
+ * Checks collision specifically with a Coins object.
+ * @param {Coins} mo - The Coins object to check collision with.
+ * @returns {boolean} True if colliding with the Coins object.
+ */
+isCollidingWithCoins(mo) {
+  let hitboxOffsetX = mo.width * 0.55;
+  let hitboxOffsetY = mo.height * 0.01;
+  let hitboxWidth = mo.width * -0.1;
+  let hitboxHeight = mo.height * 0.01;
+
+  return (
+    this.x + this.width > mo.x + hitboxOffsetX &&
+    this.x < mo.x + hitboxOffsetX + hitboxWidth &&
+    this.y + this.height > mo.y + hitboxOffsetY &&
+    this.y < mo.y + hitboxOffsetY + hitboxHeight
+  );
+}
+
+/**
+ * Checks collision specifically with a Bottles object.
+ * @param {Bottles} mo - The Bottles object to check collision with.
+ * @returns {boolean} True if colliding with the Bottles object.
+ */
+isCollidingWithBottles(mo) {
+  let hitboxOffsetX = mo.width * 0.8;
+  let hitboxOffsetY = mo.height * 0.15;
+  let hitboxWidth = mo.width * -0.7;
+  let hitboxHeight = mo.height * 0.7;
+
+  return (
+    this.x + this.width > mo.x + hitboxOffsetX &&
+    this.x < mo.x + hitboxOffsetX + hitboxWidth &&
+    this.y + this.height > mo.y + hitboxOffsetY &&
+    this.y < mo.y + hitboxOffsetY + hitboxHeight
+  );
+}
+
+/**
+ * Checks collision specifically with a Chicken object.
+ * @param {Chicken} mo - The Chicken object to check collision with.
+ * @returns {boolean} True if colliding with the Chicken object.
+ */
+isCollidingWithChicken(mo) {
+  let hitboxOffsetX = mo.width * 0.5;
+  let hitboxOffsetY = mo.height * 0.55;
+  let hitboxWidth = mo.width * 0.1;
+  let hitboxHeight = mo.height * 0.1;
+
+  return (
+    this.x + this.width > mo.x + hitboxOffsetX &&
+    this.x < mo.x + hitboxOffsetX + hitboxWidth &&
+    this.y + this.height > mo.y + hitboxOffsetY &&
+    this.y < mo.y + hitboxOffsetY + hitboxHeight
+  );
+}
+
+/**
+ * Checks collision specifically for a Character object with another object.
+ * @param {MovableObject} mo - The object to check collision with.
+ * @returns {boolean} True if the Character is colliding with the object.
+ */
+isCharacterCollidingWith(mo) {
+  let hitboxOffsetX = this.width * 0.6;
+  let hitboxOffsetY = this.height * 0.15;
+  let hitboxWidth = this.width * 0.6;
+  let hitboxHeight = this.height * 0.7;
+
+  return (
+    this.x + hitboxOffsetX + hitboxWidth > mo.x &&
+    this.x + hitboxOffsetX < mo.x + mo.width &&
+    this.y + hitboxOffsetY + hitboxHeight > mo.y &&
+    this.y + hitboxOffsetY < mo.y + mo.height
+  );
+}
+
+/**
+ * Checks for a default collision with another object when no specific case applies.
+ * @param {MovableObject} mo - The object to check collision with.
+ * @returns {boolean} True if there is a default collision with the object.
+ */
+isDefaultCollision(mo) {
+  return (
+    this.x + this.width > mo.x &&
+    this.x < mo.x + mo.width &&
+    this.y + this.height > mo.y &&
+    this.y < mo.y + mo.height
+  );
+}
+
 
   /**
    * Increments the collected coin counter, capping at 100.
@@ -169,8 +212,6 @@ class MovableObject extends DrawableObject {
   hit() {
     this.energy -= 2;
     this.hurt_sound.play();
-   
-    
     if (this.energy < 0) {
       this.energy = 0;
     } else {

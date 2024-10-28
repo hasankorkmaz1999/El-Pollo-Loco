@@ -77,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
       init();
       gameStarted = true;
       mutebutton.style.display = "block";
-
       if (window.innerHeight > window.innerWidth) {
         hud.style.display = "none";
       } else {
@@ -85,16 +84,11 @@ document.addEventListener("DOMContentLoaded", () => {
           hud.style.display = "block";
         } else {
           hud.style.display = "none";
-        }
-      }
-    } else {
+        }}} else {
       startNewGame();
       if (isTouchDevice()) {
         hud.style.display = "block";
-      }
-    }
-  }
-});
+      }}}});
 
 /**
  * Displays the "How to Play" modal.
@@ -149,7 +143,6 @@ window.onclick = function (event) {
 function checkScreenOrientation() {
   const rotateMessage = document.getElementById("rotate-message");
   const gamecontainer = document.getElementById("gamecontainer");
-
   if (window.innerHeight > window.innerWidth) {
     rotateMessage.style.display = "flex";
     gamecontainer.style.display = "none";
@@ -161,6 +154,5 @@ function checkScreenOrientation() {
 }
 
 checkScreenOrientation();
-
 window.addEventListener("resize", checkScreenOrientation);
 window.addEventListener("orientationchange", checkScreenOrientation);

@@ -123,31 +123,70 @@ class ThrowableObject extends MovableObject {
     /**
      * Checks if the throwable object collides with the endboss and damages it if true.
      */
-    checkEndbossCollision() {
-      if (this.world.endboss) {
-        const endbossHitbox = {
-          x: this.world.endboss.x + this.world.endboss.width * 0.15,
-          y: this.world.endboss.y + this.world.endboss.height * 0.1,
-          width: this.world.endboss.width * 0.7,
-          height: this.world.endboss.height * 0.9,
-        };
-        const bottleHitbox = {
-          x: this.x,
-          y: this.y,
-          width: this.width,
-          height: this.height,
-        };
-        if (
-          bottleHitbox.x + bottleHitbox.width > endbossHitbox.x &&
-          bottleHitbox.x < endbossHitbox.x + endbossHitbox.width &&
-          bottleHitbox.y + bottleHitbox.height > endbossHitbox.y &&
-          bottleHitbox.y < endbossHitbox.y + endbossHitbox.height
-        ) {
-          this.playSplashAnimation();
-          this.world.endboss.hitEndboss();
-        }
+   /**
+ * Checks if the throwable object collides with the endboss and damages it if true.
+ */
+checkEndbossCollision() {
+    if (this.world.endboss) {
+      const endbossHitbox = this.getEndbossHitbox();
+      const bottleHitbox = this.getBottleHitbox();
+  
+      if (this.isCollision(bottleHitbox, endbossHitbox)) {
+        this.handleEndbossCollision();
       }
     }
+}
+
+/**
+ * Calculates and returns the hitbox area of the endboss.
+ * @returns {Object} The hitbox of the endboss with x, y, width, and height properties.
+ */
+getEndbossHitbox() {
+    return {
+      x: this.world.endboss.x + this.world.endboss.width * 0.15,
+      y: this.world.endboss.y + this.world.endboss.height * 0.1,
+      width: this.world.endboss.width * 0.7,
+      height: this.world.endboss.height * 0.9,
+    };
+}
+
+/**
+ * Calculates and returns the hitbox area of the throwable object (bottle).
+ * @returns {Object} The hitbox of the bottle with x, y, width, and height properties.
+ */
+getBottleHitbox() {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+    };
+}
+
+/**
+ * Determines if there is a collision between two hitboxes.
+ * @param {Object} hitbox1 - The first hitbox with x, y, width, and height properties.
+ * @param {Object} hitbox2 - The second hitbox with x, y, width, and height properties.
+ * @returns {boolean} True if the hitboxes overlap, indicating a collision; otherwise, false.
+ */
+isCollision(hitbox1, hitbox2) {
+    return (
+      hitbox1.x + hitbox1.width > hitbox2.x &&
+      hitbox1.x < hitbox2.x + hitbox2.width &&
+      hitbox1.y + hitbox1.height > hitbox2.y &&
+      hitbox1.y < hitbox2.y + hitbox2.height
+    );
+}
+
+/**
+ * Handles the actions to take when the throwable object collides with the endboss.
+ * Plays the splash animation and triggers the endboss's hit action.
+ */
+handleEndbossCollision() {
+    this.playSplashAnimation();
+    this.world.endboss.hitEndboss();
+}
+
   
     /**
      * Plays the splash animation and sound, removes intervals, and deletes the object after animation.
