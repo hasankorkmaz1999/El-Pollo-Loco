@@ -187,14 +187,17 @@ class World {
       if (ThrowableObject.canThrow()) {
         let bottle = new ThrowableObject(
           this.character.x + 50,
-          this.character.y + 80,this);
+          this.character.y + 80,
+          this
+        );
         this.throwableObjects.push(bottle);
         this.character.collectedBottles--;
         let totalBottles = 12;
         let percentage = (this.character.collectedBottles / totalBottles) * 100;
         this.bottlesBar.setBottlesCollected(
           this.character.collectedBottles,
-          totalBottles);
+          totalBottles
+        );
         ThrowableObject.startCooldown();
       }
     }
@@ -281,77 +284,77 @@ class World {
       this.addToMap(this.endboss);
       this.addObjectsToMap(this.throwableObjects);
       this.ctx.restore();
-      this.checkIfAllChickensDead();}
+      this.checkIfAllChickensDead();
+    }
     if (this.isGameOver) {
-      this.handleGameOver();}
+      this.handleGameOver();
+    }
     if (!this.isGameOver) {
       let self = this;
       requestAnimationFrame(function () {
-        self.draw();});
+        self.draw();
+      });
     }
   }
 
-  
- /**
- * Handles the game over state by determining if the player has won or lost.
- * Plays relevant sounds, pauses background audio, and displays appropriate UI elements.
- */
-handleGameOver() {
-  if (this.character.isDead()) {
+  /**
+   * Handles the game over state by determining if the player has won or lost.
+   * Plays relevant sounds, pauses background audio, and displays appropriate UI elements.
+   */
+  handleGameOver() {
+    if (this.character.isDead()) {
       this.handleGameLoss();
-  } else if (this.endboss.isDeadEndboss) {
+    } else if (this.endboss.isDeadEndboss) {
       this.handleGameWin();
+    }
+    this.displayGameOverUI();
   }
-  this.displayGameOverUI();
-}
 
-/**
-* Handles the actions and UI updates when the player loses the game.
-*/
-handleGameLoss() {
-  this.gameover_sound.play();
-  this.background_sound.pause();
-  this.character.hurt_sound.volume = 0;
-  this.chickensounds.pause();
-  this.displayLossScreen();
-}
+  /**
+   * Handles the actions and UI updates when the player loses the game.
+   */
+  handleGameLoss() {
+    this.gameover_sound.play();
+    this.background_sound.pause();
+    this.character.hurt_sound.volume = 0;
+    this.chickensounds.pause();
+    this.displayLossScreen();
+  }
 
-/**
-* Handles the actions and UI updates when the player wins the game.
-*/
-handleGameWin() {
-  this.background_sound.pause();
-  this.win_sound.play();
-  this.chickensounds.pause();
-  this.displayWinScreen();
-}
+  /**
+   * Handles the actions and UI updates when the player wins the game.
+   */
+  handleGameWin() {
+    this.background_sound.pause();
+    this.win_sound.play();
+    this.chickensounds.pause();
+    this.displayWinScreen();
+  }
 
-/**
-* Displays the loss screen UI elements.
-*/
-displayLossScreen() {
-  document.getElementById("you-lose-image").style.display = "block";
-  document.getElementById("you-win-image").style.display = "none";
-}
+  /**
+   * Displays the loss screen UI elements.
+   */
+  displayLossScreen() {
+    document.getElementById("you-lose-image").style.display = "block";
+    document.getElementById("you-win-image").style.display = "none";
+  }
 
-/**
-* Displays the win screen UI elements.
-*/
-displayWinScreen() {
-  document.getElementById("you-win-image").style.display = "block";
-  document.getElementById("you-lose-image").style.display = "none";
-}
+  /**
+   * Displays the win screen UI elements.
+   */
+  displayWinScreen() {
+    document.getElementById("you-win-image").style.display = "block";
+    document.getElementById("you-lose-image").style.display = "none";
+  }
 
-/**
-* Displays the game over overlay and options for starting a new game or quitting.
-*/
-displayGameOverUI() {
-  document.getElementById("overlay").style.display = "block";
-  document.getElementById("new-game-button").style.display = "block";
-  document.getElementById("quit-game-button").style.display = "block";
-}
-
-  
+  /**
+   * Displays the game over overlay and options for starting a new game or quitting.
+   */
+  displayGameOverUI() {
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("new-game-button").style.display = "block";
+    document.getElementById("quit-game-button").style.display = "block";
+  }
 
   /**
    * Adds an array of objects to the canvas map.

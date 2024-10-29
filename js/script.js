@@ -84,11 +84,16 @@ document.addEventListener("DOMContentLoaded", () => {
           hud.style.display = "block";
         } else {
           hud.style.display = "none";
-        }}} else {
+        }
+      }
+    } else {
       startNewGame();
       if (isTouchDevice()) {
         hud.style.display = "block";
-      }}}});
+      }
+    }
+  }
+});
 
 /**
  * Displays the "How to Play" modal.

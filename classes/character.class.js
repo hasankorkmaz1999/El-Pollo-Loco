@@ -110,56 +110,55 @@ class Character extends MovableObject {
   }
 
   /**
- * Manages character animations and movements by initializing separate intervals for
- * movement and state-based animations.
- */
-animate() {
-  this.setupMovementAnimation();
-  this.setupStateAnimation();
-}
+   * Manages character animations and movements by initializing separate intervals for
+   * movement and state-based animations.
+   */
+  animate() {
+    this.setupMovementAnimation();
+    this.setupStateAnimation();
+  }
 
-/**
- * Sets up an interval to handle character movements based on keyboard input
- * and adjusts the camera position.
- */
-setupMovementAnimation() {
-  setInterval(() => {
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-      this.moveRight();
-      this.otherDirection = false;
-    }
-    if (this.world.keyboard.LEFT && this.x > 0) {
-      this.moveLeft();
-      this.otherDirection = true;
-    }
-    if (this.world.keyboard.SPACE && !this.isAboveground()) {
-      this.jump();
-    }
-    this.world.camera_x = -this.x + 100;
-  }, 1000 / 60);
-}
+  /**
+   * Sets up an interval to handle character movements based on keyboard input
+   * and adjusts the camera position.
+   */
+  setupMovementAnimation() {
+    setInterval(() => {
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        this.moveRight();
+        this.otherDirection = false;
+      }
+      if (this.world.keyboard.LEFT && this.x > 0) {
+        this.moveLeft();
+        this.otherDirection = true;
+      }
+      if (this.world.keyboard.SPACE && !this.isAboveground()) {
+        this.jump();
+      }
+      this.world.camera_x = -this.x + 100;
+    }, 1000 / 60);
+  }
 
-/**
- * Sets up an interval to manage the character's animation based on its current state,
- * such as dead, hurt, jumping, walking, or idle.
- */
-setupStateAnimation() {
-  setInterval(() => {
-    if (this.isDead()) {
-      this.playDeadAnimation();
-      this.world.isGameOver = true;
-    } else if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
-    } else if (this.isAboveground()) {
-      this.playAnimation(this.IMAGES_JUMPING);
-    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-      this.playAnimation(this.IMAGES_WALKING);
-    } else {
-      this.playAnimation(this.IMAGES_IDLE);
-    }
-  }, 150);
-}
-
+  /**
+   * Sets up an interval to manage the character's animation based on its current state,
+   * such as dead, hurt, jumping, walking, or idle.
+   */
+  setupStateAnimation() {
+    setInterval(() => {
+      if (this.isDead()) {
+        this.playDeadAnimation();
+        this.world.isGameOver = true;
+      } else if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+      } else if (this.isAboveground()) {
+        this.playAnimation(this.IMAGES_JUMPING);
+      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.playAnimation(this.IMAGES_WALKING);
+      } else {
+        this.playAnimation(this.IMAGES_IDLE);
+      }
+    }, 150);
+  }
 
   /**
    * Checks if the character has zero energy, marking it as dead.

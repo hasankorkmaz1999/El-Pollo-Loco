@@ -38,51 +38,53 @@ function init() {
  * Starts a new game, resetting relevant game states, UI elements, and mute status.
  */
 function startNewGame() {
-    hideGameOverScreens();
-    resetGameState();
-    initializeNewWorld();
-    updateMuteButton();
+  hideGameOverScreens();
+  resetGameState();
+  initializeNewWorld();
+  updateMuteButton();
+}
+
+/**
+ * Hides game-over screens and overlay elements in preparation for a new game.
+ */
+function hideGameOverScreens() {
+  document.getElementById("you-win-image").style.display = "none";
+  document.getElementById("you-lose-image").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
+  document.getElementById("new-game-button").style.display = "none";
+}
+
+/**
+ * Resets the game state, including setting `isGameOver` to false and reinitializing the keyboard controls.
+ */
+function resetGameState() {
+  world.isGameOver = false;
+  keyboard = new Keyboard();
+}
+
+/**
+ * Initializes a new level and world, preserving the current mute status.
+ */
+function initializeNewWorld() {
+  const newLevel = createLevel();
+  const isCurrentlyMuted = world.isMuted;
+  world = new World(canvas, keyboard, newLevel);
+  world.isMuted = isCurrentlyMuted;
+  if (world.isMuted) {
+    world.muteAllSounds();
   }
-  
-  /**
-   * Hides game-over screens and overlay elements in preparation for a new game.
-   */
-  function hideGameOverScreens() {
-    document.getElementById("you-win-image").style.display = "none";
-    document.getElementById("you-lose-image").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
-    document.getElementById("new-game-button").style.display = "none";
-  }
-  
-  /**
-   * Resets the game state, including setting `isGameOver` to false and reinitializing the keyboard controls.
-   */
-  function resetGameState() {
-    world.isGameOver = false;
-    keyboard = new Keyboard();
-  }
-  
-  /**
-   * Initializes a new level and world, preserving the current mute status.
-   */
-  function initializeNewWorld() {
-    const newLevel = createLevel();
-    const isCurrentlyMuted = world.isMuted;
-    world = new World(canvas, keyboard, newLevel);
-    world.isMuted = isCurrentlyMuted;
-    if (world.isMuted) {
-      world.muteAllSounds();
-    }
-  }
-  
-  /**
-   * Updates the mute button display based on the current mute status of the world.
-   */
-  function updateMuteButton() {
-    document.getElementById("mutebutton").textContent = world.isMuted ? "🔇" : "🔊";
-    document.getElementById("mutebutton").style.display = "block";
-  }
-  
+}
+
+/**
+ * Updates the mute button display based on the current mute status of the world.
+ */
+function updateMuteButton() {
+  document.getElementById("mutebutton").textContent = world.isMuted
+    ? "🔇"
+    : "🔊";
+  document.getElementById("mutebutton").style.display = "block";
+}
+
 /**
  * Exits the current game and returns to the start screen, hiding game UI elements.
  */
@@ -90,51 +92,50 @@ function startNewGame() {
  * Quits the game, hides game elements, and returns to the start screen.
  */
 function quitGame() {
-    hideGameOverScreens();
-    hideGameUIElements();
-    showStartScreen();
+  hideGameOverScreens();
+  hideGameUIElements();
+  showStartScreen();
+}
+
+/**
+ * Hides the game-over and overlay images, if they are displayed.
+ */
+function hideGameOverScreens() {
+  document.getElementById("you-win-image").style.display = "none";
+  document.getElementById("you-lose-image").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
+}
+
+/**
+ * Hides various UI elements related to the game, such as the canvas, quit button, mute button, and HUD.
+ */
+function hideGameUIElements() {
+  hideElementById("quit-game-button");
+  hideElementById("canvas");
+  hideElementById("mutebutton");
+  hideElementById("hud");
+}
+
+/**
+ * Shows the start screen element, allowing the player to start a new game.
+ */
+function showStartScreen() {
+  const startScreen = document.getElementById("startscreen");
+  if (startScreen) {
+    startScreen.style.display = "block";
   }
-  
-  /**
-   * Hides the game-over and overlay images, if they are displayed.
-   */
-  function hideGameOverScreens() {
-    document.getElementById("you-win-image").style.display = "none";
-    document.getElementById("you-lose-image").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
+}
+
+/**
+ * Helper function to hide an element by its ID, if it exists in the DOM.
+ * @param {string} elementId - The ID of the element to hide.
+ */
+function hideElementById(elementId) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.style.display = "none";
   }
-  
-  /**
-   * Hides various UI elements related to the game, such as the canvas, quit button, mute button, and HUD.
-   */
-  function hideGameUIElements() {
-    hideElementById("quit-game-button");
-    hideElementById("canvas");
-    hideElementById("mutebutton");
-    hideElementById("hud");
-  }
-  
-  /**
-   * Shows the start screen element, allowing the player to start a new game.
-   */
-  function showStartScreen() {
-    const startScreen = document.getElementById("startscreen");
-    if (startScreen) {
-      startScreen.style.display = "block";
-    }
-  }
-  
-  /**
-   * Helper function to hide an element by its ID, if it exists in the DOM.
-   * @param {string} elementId - The ID of the element to hide.
-   */
-  function hideElementById(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.style.display = "none";
-    }
-  }
-  
+}
 
 /**
  * Event listener for keydown events, updates `keyboard` state on key press.
@@ -222,7 +223,7 @@ function createLevel() {
     [
       new BackgroundObject("img/5_background/layers/air.png", -719),
       new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -719),
-      new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -719),
+      new BackgroundObject("img/5_background/layers/2_second_layer/2.png",-719),
       new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -719),
       new BackgroundObject("img/5_background/layers/air.png", 0),
       new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
@@ -233,31 +234,13 @@ function createLevel() {
       new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 719),
       new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 719),
       new BackgroundObject("img/5_background/layers/air.png", 719 * 2),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/1.png",
-        719 * 2
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/1.png",
-        719 * 2
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/1.png",
-        719 * 2
-      ),
+      new BackgroundObject("img/5_background/layers/3_third_layer/1.png",719 * 2),
+      new BackgroundObject("img/5_background/layers/2_second_layer/1.png",719 * 2),
+      new BackgroundObject("img/5_background/layers/1_first_layer/1.png",719 * 2),
       new BackgroundObject("img/5_background/layers/air.png", 719 * 3),
-      new BackgroundObject(
-        "img/5_background/layers/3_third_layer/2.png",
-        719 * 3
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/2_second_layer/2.png",
-        719 * 3
-      ),
-      new BackgroundObject(
-        "img/5_background/layers/1_first_layer/2.png",
-        719 * 3
-      ),
+      new BackgroundObject("img/5_background/layers/3_third_layer/2.png",719 * 3),
+      new BackgroundObject("img/5_background/layers/2_second_layer/2.png",719 * 3),
+      new BackgroundObject("img/5_background/layers/1_first_layer/2.png",719 * 3),
     ],
     [
       new Bottles(),

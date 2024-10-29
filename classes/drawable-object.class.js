@@ -5,13 +5,13 @@
 class DrawableObject {
   /** @type {HTMLImageElement} Holds the current image object to be displayed. */
   img;
-  
-  /** 
+
+  /**
    * @type {Object} Cache of preloaded images, with the image paths as keys.
    * Stores each loaded image for efficient reuse.
    */
   imageCache = {};
-  
+
   /** @type {number} Tracks the index of the current image for animations. */
   currentImage = 0;
 
