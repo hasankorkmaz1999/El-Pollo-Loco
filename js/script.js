@@ -34,8 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
    * @returns {boolean} True if the device has touch support, false otherwise.
    */
   function isTouchDevice() {
-    return "ontouchstart" in window || navigator.maxTouchPoints > 0;
-  }
+    const hasTouchEvent = "ontouchstart" in window;
+    const hasTouchPoints = navigator.maxTouchPoints > 0;
+    return hasTouchEvent && hasTouchPoints;
+}
+
 
   /**
    * Boolean indicating whether the game has started.
@@ -77,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       init();
       gameStarted = true;
       mutebutton.style.display = "block";
+      
       if (window.innerHeight > window.innerWidth) {
         hud.style.display = "none";
       } else {
